@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>0x74617465.sh // red team</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Syne+Mono&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black:      #050508;
+  --deep:       #08080f;
+  --panel:      #0c0c18;
+  --pink:       #ff2d78;
+  --pink-dim:   rgba(255,45,120,0.4);
+  --pink-faint: rgba(255,45,120,0.08);
+  --cyan:       #00f5d4;
+  --cyan-dim:   rgba(0,245,212,0.4);
+  --cyan-faint: rgba(0,245,212,0.07);
+  --gold:       #ffd166;
+  --gold-dim:   rgba(255,209,102,0.4);
+  --muted:      #2a2a45;
+  --subtle:     #4a4a6a;
+  --text:       #c8c8e8;
+  --text-dim:   #7a7a9a;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--text);
+  font-family: 'Share Tech Mono', monospace;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── GRID BG ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    linear-gradient(#1a1a2e 1px, transparent 1px),
+    linear-gradient(90deg, #1a1a2e 1px, transparent 1px);
+  background-size: 36px 36px;
+  opacity: 0.1;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── SCANLINE ── */
+.scanline {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--cyan-dim), transparent);
+  animation: scan 6s linear infinite;
+  opacity: 0.3;
+  z-index: 999;
+  pointer-events: none;
+}
+@keyframes scan { 0%{top:-1px} 100%{top:100%} }
+
+/* ── NAV ── */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(5,5,8,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--muted);
+  padding: 0 clamp(16px, 4vw, 60px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 52px;
+  box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+}
+
+.nav-brand {
+  font-family: 'Syne Mono', monospace;
+  font-size: 15px;
+  letter-spacing: 0.02em;
+  color: var(--text);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.nav-brand .px { color: var(--pink); }
+.nav-brand .cx { color: var(--cyan); }
+
+.nav-links {
+  display: flex;
+  gap: clamp(12px, 2.5vw, 28px);
+  list-style: none;
+}
+.nav-links a {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--subtle);
+  text-decoration: none;
+  transition: color 0.2s;
+  padding: 2px 0;
+  border-bottom: 1px solid transparent;
+}
+.nav-links a:hover { color: var(--cyan); border-color: var(--cyan-dim); }
+
+.nav-back {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--subtle);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-back:hover { color: var(--pink); }
+
+/* ── WRAPPER ── */
+.wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 4vw, 60px);
+}
+
+/* ── HERO ── */
+.hero {
+  padding: 80px 0 60px;
+  border-bottom: 1px solid var(--muted);
+}
+
+.hero-eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--subtle);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.hero-eyebrow::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--muted);
+  max-width: 120px;
+  opacity: 0.4;
+}
+
+.hero-title {
+  font-family: 'Syne Mono', monospace;
+  font-size: clamp(28px, 5vw, 56px);
+  line-height: 1.05;
+  margin-bottom: 20px;
+  letter-spacing: -0.01em;
+}
+.hero-title .pk { color: var(--pink); text-shadow: 0 0 40px var(--pink-dim); }
+.hero-title .cx { color: var(--cyan); text-shadow: 0 0 40px var(--cyan-dim); }
+
+.hero-sub {
+  font-family: 'DM Mono', monospace;
+  font-weight: 300;
+  font-size: clamp(12px, 1.6vw, 15px);
+  color: var(--text-dim);
+  line-height: 1.8;
+  max-width: 680px;
+  margin-bottom: 48px;
+  letter-spacing: 0.04em;
+}
+.hero-sub em { font-style: normal; color: var(--text); }
+
+/* hero stats */
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 1px;
+  background: var(--muted);
+  border: 1px solid var(--muted);
+  max-width: 700px;
+}
+.hstat {
+  background: var(--deep);
+  padding: 18px 20px;
+  text-align: center;
+}
+.hstat-val {
+  font-family: 'Syne Mono', monospace;
+  font-size: clamp(18px, 2.5vw, 26px);
+  margin-bottom: 4px;
+}
+.hstat-val.pk { color: var(--pink); text-shadow: 0 0 20px var(--pink-dim); }
+.hstat-val.cx { color: var(--cyan); text-shadow: 0 0 20px var(--cyan-dim); }
+.hstat-val.go { color: var(--gold); text-shadow: 0 0 20px var(--gold-dim); }
+.hstat-label { font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--subtle); }
+
+/* ── HTB BADGE ── */
+.badge-section {
+  padding: 40px 0;
+  border-bottom: 1px solid var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+.badge-section img {
+  border-radius: 6px;
+  border: 1px solid var(--muted);
+  height: auto;
+  max-width: 100%;
+}
+.badge-section iframe {
+  border: 1px solid var(--muted);
+  border-radius: 6px;
+  height: 120px;
+  width: 360px;
+  max-width: 100%;
+}
+
+/* ── SECTION ── */
+section { padding: 60px 0; border-bottom: 1px solid var(--muted); }
+section:last-child { border-bottom: none; }
+
+.sec-header {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 36px;
+}
+.sec-title {
+  font-family: 'Syne Mono', monospace;
+  font-size: clamp(16px, 2.5vw, 22px);
+  color: var(--text);
+  letter-spacing: 0.02em;
+}
+.sec-title .pk { color: var(--pink); }
+.sec-title .cx { color: var(--cyan); }
+.sec-count {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: var(--subtle);
+  border: 1px solid var(--muted);
+  padding: 2px 8px;
+}
+.sec-desc {
+  font-size: 12px;
+  color: var(--text-dim);
+  letter-spacing: 0.06em;
+  margin-bottom: 28px;
+  line-height: 1.7;
+}
+
+/* ── CERTS ── */
+.certs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+}
+.cert-card {
+  background: var(--panel);
+  border: 1px solid var(--muted);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.cert-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--cyan), var(--pink));
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.cert-card:hover { border-color: var(--cyan-dim); box-shadow: 0 0 24px var(--cyan-faint); }
+.cert-card:hover::before { opacity: 1; }
+
+.cert-abbr {
+  font-family: 'Syne Mono', monospace;
+  font-size: 22px;
+  color: var(--cyan);
+  text-shadow: 0 0 20px var(--cyan-dim);
+}
+.cert-name { font-size: 11px; color: var(--text-dim); letter-spacing: 0.08em; line-height: 1.5; }
+.cert-link {
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--pink);
+  text-decoration: none;
+  transition: color 0.2s;
+  margin-top: auto;
+}
+.cert-link:hover { color: var(--cyan); }
+
+/* ── SEASON CARDS ── */
+.season-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+.season-card {
+  background: var(--panel);
+  border: 1px solid var(--muted);
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+}
+.season-card.gold { border-color: var(--gold-dim); }
+.season-card.silver { border-color: rgba(180,180,220,0.3); }
+
+.season-glow {
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 120px; height: 120px;
+  border-radius: 50%;
+  opacity: 0.06;
+  pointer-events: none;
+}
+.season-card.gold .season-glow { background: var(--gold); }
+.season-card.silver .season-glow { background: #b4b4dc; }
+
+.season-badge-line {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.season-card.gold .season-badge-line { color: var(--gold); }
+.season-card.silver .season-badge-line { color: #b4b4dc; }
+
+.season-name {
+  font-family: 'Syne Mono', monospace;
+  font-size: 17px;
+  color: var(--text);
+  margin-bottom: 14px;
+}
+.season-stat-row { display: flex; gap: 20px; flex-wrap: wrap; }
+.season-stat { }
+.season-stat-val {
+  font-family: 'Syne Mono', monospace;
+  font-size: 20px;
+  color: var(--pink);
+}
+.season-stat-val.cx { color: var(--cyan); }
+.season-stat-key { font-size: 9px; letter-spacing: 0.18em; color: var(--subtle); text-transform: uppercase; }
+
+.season-link {
+  display: inline-block;
+  margin-top: 16px;
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--subtle);
+  text-decoration: none;
+  border: 1px solid var(--muted);
+  padding: 4px 10px;
+  transition: color 0.2s, border-color 0.2s;
+}
+.season-link:hover { color: var(--cyan); border-color: var(--cyan-dim); }
+
+/* ── FILTER / SEARCH ── */
+.filter-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.filter-search {
+  background: var(--panel);
+  border: 1px solid var(--muted);
+  color: var(--text);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 12px;
+  padding: 8px 12px;
+  outline: none;
+  flex: 1;
+  min-width: 180px;
+  transition: border-color 0.2s;
+  letter-spacing: 0.06em;
+}
+.filter-search:focus { border-color: var(--cyan-dim); }
+.filter-search::placeholder { color: var(--subtle); }
+
+.filter-btn {
+  background: var(--panel);
+  border: 1px solid var(--muted);
+  color: var(--subtle);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.filter-btn:hover, .filter-btn.active { border-color: var(--pink-dim); color: var(--pink); background: var(--pink-faint); }
+.filter-btn.diff-easy.active   { border-color: var(--cyan-dim); color: var(--cyan); background: var(--cyan-faint); }
+.filter-btn.diff-medium.active { border-color: var(--gold-dim); color: var(--gold); background: rgba(255,209,102,0.07); }
+.filter-btn.diff-hard.active   { border-color: rgba(255,140,0,0.4); color: #ff8c00; background: rgba(255,140,0,0.07); }
+.filter-btn.diff-insane.active { border-color: var(--pink-dim); color: var(--pink); background: var(--pink-faint); }
+
+/* ── BOX GRID ── */
+.box-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 10px;
+}
+
+.box-card {
+  background: var(--panel);
+  border: 1px solid var(--muted);
+  padding: 16px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  cursor: default;
+}
+.box-card:hover { border-color: var(--pink-dim); box-shadow: 0 0 20px var(--pink-faint); }
+
+.box-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+.box-name {
+  font-family: 'Syne Mono', monospace;
+  font-size: 14px;
+  color: var(--text);
+  letter-spacing: 0.02em;
+}
+.box-status { font-size: 11px; }
+
+.diff-badge {
+  font-size: 8px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border: 1px solid;
+}
+.diff-easy   { color: var(--cyan); border-color: var(--cyan-dim); }
+.diff-medium { color: var(--gold); border-color: var(--gold-dim); }
+.diff-hard   { color: #ff8c00; border-color: rgba(255,140,0,0.4); }
+.diff-insane { color: var(--pink); border-color: var(--pink-dim); }
+.diff-season { color: #b4b4dc; border-color: rgba(180,180,220,0.3); }
+.diff-varied { color: var(--text-dim); border-color: var(--muted); }
+.diff-basic  { color: var(--text-dim); border-color: var(--muted); }
+
+.box-summary {
+  font-size: 10.5px;
+  color: var(--text-dim);
+  line-height: 1.65;
+  letter-spacing: 0.03em;
+  margin-bottom: 12px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.box-card.expanded .box-summary {
+  display: block;
+  -webkit-line-clamp: unset;
+}
+
+.box-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+.box-tags { display: flex; gap: 4px; flex-wrap: wrap; }
+.box-tag {
+  font-size: 8px;
+  padding: 1px 6px;
+  border: 1px solid var(--muted);
+  color: var(--subtle);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.box-links { display: flex; gap: 6px; flex-shrink: 0; }
+.box-link {
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--subtle);
+  text-decoration: none;
+  border: 1px solid var(--muted);
+  padding: 3px 7px;
+  transition: all 0.15s;
+}
+.box-link:hover { color: var(--cyan); border-color: var(--cyan-dim); }
+
+.box-expand-btn {
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  color: var(--pink);
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-family: 'Share Tech Mono', monospace;
+  padding: 0;
+}
+
+/* proof img hover */
+.proof-thumb {
+  position: absolute;
+  top: 0; right: 0;
+  width: 6px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--cyan-dim), var(--pink-dim));
+  opacity: 0.3;
+  transition: opacity 0.2s;
+}
+.box-card:hover .proof-thumb { opacity: 0.7; }
+
+/* ── PRO LABS ── */
+.prolabs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 14px;
+}
+.prolab-card {
+  background: var(--panel);
+  border: 1px solid var(--muted);
+  padding: 22px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.prolab-card:hover { border-color: var(--pink-dim); box-shadow: 0 0 30px var(--pink-faint); }
+.prolab-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, var(--pink), var(--cyan));
+  opacity: 0.5;
+}
+.prolab-tier {
+  font-size: 8px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--subtle);
+  margin-bottom: 8px;
+}
+.prolab-name {
+  font-family: 'Syne Mono', monospace;
+  font-size: 18px;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+.prolab-status {
+  display: inline-block;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  border: 1px solid var(--cyan-dim);
+  padding: 2px 8px;
+  margin-bottom: 12px;
+}
+.prolab-blurb {
+  font-size: 11px;
+  color: var(--text-dim);
+  line-height: 1.65;
+  letter-spacing: 0.03em;
+}
+.prolab-link {
+  display: inline-block;
+  margin-top: 14px;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--pink);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.prolab-link:hover { color: var(--cyan); }
+
+/* ── TABS (other platforms) ── */
+.tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--muted);
+}
+.tab-btn {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--subtle);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: -1px;
+}
+.tab-btn:hover { color: var(--text); }
+.tab-btn.active { color: var(--cyan); border-bottom-color: var(--cyan); }
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ── CASE STUDY ── */
+.case-card {
+  background: var(--panel);
+  border: 1px solid var(--muted);
+  padding: 28px;
+  position: relative;
+  overflow: hidden;
+  max-width: 720px;
+}
+.case-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--pink), var(--cyan));
+}
+.case-tag {
+  font-size: 8px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--pink);
+  border: 1px solid var(--pink-dim);
+  padding: 2px 8px;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+.case-title {
+  font-family: 'Syne Mono', monospace;
+  font-size: 18px;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+.case-desc { font-size: 12px; color: var(--text-dim); line-height: 1.7; margin-bottom: 16px; }
+.case-chain { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+.chain-step {
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  color: var(--text-dim);
+  background: var(--muted);
+  padding: 3px 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.chain-step::after {
+  content: '→';
+  color: var(--pink);
+}
+.chain-step:last-child::after { display: none; }
+.case-link {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  text-decoration: none;
+  border: 1px solid var(--cyan-dim);
+  padding: 6px 14px;
+  transition: all 0.2s;
+  display: inline-block;
+}
+.case-link:hover { background: var(--cyan-faint); }
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--muted);
+  padding: 32px 0;
+  text-align: center;
+}
+.footer-domain {
+  font-family: 'Syne Mono', monospace;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+.footer-domain .pk { color: var(--pink); }
+.footer-domain .cx { color: var(--cyan); }
+.footer-sub { font-size: 10px; letter-spacing: 0.18em; color: var(--subtle); }
+.footer-sub a { color: var(--subtle); text-decoration: none; transition: color 0.2s; }
+.footer-sub a:hover { color: var(--cyan); }
+
+/* ── ACTIVE BOXES NOTE ── */
+.active-note {
+  background: var(--panel);
+  border: 1px solid var(--muted);
+  border-left: 3px solid var(--gold);
+  padding: 12px 16px;
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 0.06em;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+.active-note strong { color: var(--gold); }
+
+/* ── EMPTY STATE ── */
+.no-results {
+  text-align: center;
+  padding: 40px;
+  font-size: 12px;
+  color: var(--subtle);
+  letter-spacing: 0.1em;
+  display: none;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  .nav-links { display: none; }
+  .box-grid { grid-template-columns: 1fr; }
+  .hero-stats { grid-template-columns: repeat(2, 1fr); }
+  .filter-bar { gap: 6px; }
+}
+</style>
+</head>
+<body>
+<div class="scanline"></div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-brand" href="/">
+    <span class="px">0x</span>74617465<span class="cx">.sh</span>
+    <span style="color:var(--muted);margin:0 4px;">/</span>
+    <span style="color:var(--pink);font-size:12px;">red-team</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#certs">Certs</a></li>
+    <li><a href="#seasonal">Seasonal</a></li>
+    <li><a href="#boxes">Boxes</a></li>
+    <li><a href="#prolabs">Pro Labs</a></li>
+    <li><a href="#other">Other Platforms</a></li>
+    <li><a href="#casestudy">Case Study</a></li>
+  </ul>
+  <a class="nav-back" href="/">← back to 0x</a>
+</nav>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-eyebrow">// red team operations</div>
+    <h1 class="hero-title">
+      offensive security<br>
+      <span class="pk">research</span> &amp; <span class="cx">operations</span>
+    </h1>
+    <p class="hero-sub">
+      HTB Season 9 <em>Top 1% Holo</em> ranking through systematic exploitation of Active Directory environments,
+      web applications, container escapes, and privilege escalation chains.<br>
+      Understanding how attacks work — to build better defences.
+    </p>
+    <div class="hero-stats">
+      <div class="hstat">
+        <div class="hstat-val pk">Top 1%</div>
+        <div class="hstat-label">Season 9 Rank</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-val go">🏆 Holo</div>
+        <div class="hstat-label">S9 Badge</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-val cx">55+</div>
+        <div class="hstat-label">HTB Boxes</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-val pk">11</div>
+        <div class="hstat-label">Pro Labs</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-val cx">4</div>
+        <div class="hstat-label">Certs</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HTB BADGE -->
+  <div class="badge-section">
+    <a href="https://app.hackthebox.com/users/2216056" target="_blank">
+      <img src="https://www.hackthebox.eu/badge/image/2216056" alt="HackTheBox Profile" style="width:360px;">
+    </a>
+    <iframe src="https://tryhackme.com/api/v2/badges/public-profile?userPublicId=4106179"
+            style="border:none;" title="TryHackMe Stats"></iframe>
+  </div>
+
+  <!-- CERTS -->
+  <section id="certs">
+    <div class="sec-header">
+      <h2 class="sec-title">// offensive <span class="pk">certifications</span></h2>
+    </div>
+    <div class="certs-grid" id="certs-grid"></div>
+  </section>
+
+  <!-- SEASONAL PERFORMANCE -->
+  <section id="seasonal">
+    <div class="sec-header">
+      <h2 class="sec-title">// seasonal <span class="cx">performance</span></h2>
+    </div>
+    <div class="season-grid" id="season-grid"></div>
+  </section>
+
+  <!-- BOXES -->
+  <section id="boxes">
+    <div class="sec-header">
+      <h2 class="sec-title">// htb <span class="pk">boxes</span></h2>
+      <span class="sec-count" id="box-total-count"></span>
+    </div>
+
+    <!-- Sub tabs -->
+    <div class="tabs" id="box-tabs">
+      <button class="tab-btn active" data-tab="seasonal-boxes">Seasonal</button>
+      <button class="tab-btn" data-tab="retired-boxes">Retired</button>
+      <button class="tab-btn" data-tab="active-boxes">Active</button>
+    </div>
+
+    <!-- Seasonal Boxes -->
+    <div class="tab-panel active" id="tab-seasonal-boxes">
+      <div class="sec-desc">Current and recent seasonal boxes — Active Directory exploitation, web application security, container escapes, and multi-stage attack chains.</div>
+      <div class="filter-bar">
+        <input class="filter-search" type="text" placeholder="> search boxes..." data-target="seasonal-box-grid">
+        <button class="filter-btn diff-easy" data-diff="easy" data-target="seasonal-box-grid">Easy</button>
+        <button class="filter-btn diff-medium" data-diff="medium" data-target="seasonal-box-grid">Medium</button>
+        <button class="filter-btn diff-hard" data-diff="hard" data-target="seasonal-box-grid">Hard</button>
+        <button class="filter-btn diff-insane" data-diff="insane" data-target="seasonal-box-grid">Insane</button>
+      </div>
+      <div class="box-grid" id="seasonal-box-grid"></div>
+      <div class="no-results" id="seasonal-box-grid-empty">no boxes match that filter.</div>
+    </div>
+
+    <!-- Retired Boxes -->
+    <div class="tab-panel" id="tab-retired-boxes">
+      <div class="sec-desc">Full write-ups available for all retired boxes covering diverse attack techniques and methodologies.</div>
+      <div class="filter-bar">
+        <input class="filter-search" type="text" placeholder="> search boxes..." data-target="retired-box-grid">
+        <button class="filter-btn diff-easy" data-diff="easy" data-target="retired-box-grid">Easy</button>
+        <button class="filter-btn diff-medium" data-diff="medium" data-target="retired-box-grid">Medium</button>
+        <button class="filter-btn diff-hard" data-diff="hard" data-target="retired-box-grid">Hard</button>
+        <button class="filter-btn diff-insane" data-diff="insane" data-target="retired-box-grid">Insane</button>
+      </div>
+      <div class="box-grid" id="retired-box-grid"></div>
+      <div class="no-results" id="retired-box-grid-empty">no boxes match that filter.</div>
+    </div>
+
+    <!-- Active Boxes -->
+    <div class="tab-panel" id="tab-active-boxes">
+      <div class="active-note"><strong>⚠ Active boxes:</strong> Write-ups withheld per HTB community rules until retirement. Proof screenshots confirm completion — full methodology unlocks on retirement.</div>
+      <div class="box-grid" id="active-box-grid"></div>
+    </div>
+  </section>
+
+  <!-- PRO LABS -->
+  <section id="prolabs">
+    <div class="sec-header">
+      <h2 class="sec-title">// htb <span class="cx">pro labs</span></h2>
+      <span class="sec-count">11 completed</span>
+    </div>
+    <div class="sec-desc">Multi-machine enterprise environments simulating real-world corporate networks, AD forests, and complex multi-stage attack chains.</div>
+    <div class="prolabs-grid" id="prolabs-grid"></div>
+  </section>
+
+  <!-- OTHER PLATFORMS -->
+  <section id="other">
+    <div class="sec-header">
+      <h2 class="sec-title">// other <span class="pk">platforms</span></h2>
+    </div>
+    <div class="tabs" id="platform-tabs">
+      <button class="tab-btn active" data-tab="thm-panel">TryHackMe</button>
+      <button class="tab-btn" data-tab="pg-panel">Proving Grounds</button>
+      <button class="tab-btn" data-tab="hs-panel">HackSmarter</button>
+    </div>
+    <div class="tab-panel active" id="tab-thm-panel">
+      <div class="box-grid" id="thm-grid"></div>
+    </div>
+    <div class="tab-panel" id="tab-pg-panel">
+      <div class="box-grid" id="pg-grid"></div>
+    </div>
+    <div class="tab-panel" id="tab-hs-panel">
+      <div class="box-grid" id="hs-grid"></div>
+    </div>
+  </section>
+
+  <!-- CASE STUDY -->
+  <section id="casestudy">
+    <div class="sec-header">
+      <h2 class="sec-title">// featured <span class="cx">case study</span></h2>
+    </div>
+    <div class="case-card">
+      <span class="case-tag">Network // PrivEsc</span>
+      <h3 class="case-title">VPN Compromise & Privilege Escalation</h3>
+      <p class="case-desc">Structured penetration test demonstrating attack methodology from external reconnaissance through full host compromise — written from a defensive perspective with MITRE ATT&CK mapping, risk ratings, and remediation guidance.</p>
+      <div class="case-chain">
+        <span class="chain-step">IKE Aggressive Mode</span>
+        <span class="chain-step">PSK cracking</span>
+        <span class="chain-step">VPN auth</span>
+        <span class="chain-step">sudo misconfiguration</span>
+        <span class="chain-step">root</span>
+      </div>
+      <a class="case-link" href="https://inksec.io/Case-Studies/VPN-PrivEsc/" target="_blank">read full case study →</a>
+    </div>
+  </section>
+
+</div><!-- /wrap -->
+
+<footer>
+  <div class="wrap">
+    <div class="footer-domain"><span class="pk">0x</span>74617465<span class="cx">.sh</span></div>
+    <div class="footer-sub">
+      handle: <span style="color:var(--pink)">inksec</span> &nbsp;·&nbsp;
+      <a href="https://github.com/inkedqt/ctf-writeups" target="_blank">github</a> &nbsp;·&nbsp;
+      <a href="https://inksec.io" target="_blank">inksec.io</a> &nbsp;·&nbsp;
+      MEL // AU
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────
+
+const CERTS = [
+  { abbr:'CPTS',  name:'HTB Certified Penetration Testing Specialist', url:'https://www.credly.com/badges/3dff4822-f70f-40c8-a4b4-ee19a43b1d26/public_url' },
+  { abbr:'BSCP',  name:'Burp Suite Certified Practitioner',            url:'https://portswigger.net/web-security/e/c/3dcdb1592a81aeed' },
+  { abbr:'CWES',  name:'Certified Web Exploitation Specialist',        url:'https://www.credly.com/badges/2bbefbd8-a51a-4459-a3eb-8f42e4953f17' },
+  { abbr:'eJPT',  name:'eLearnSecurity Junior Penetration Tester',     url:'https://certs.ine.com/418db589-3ab5-4b4e-9a3c-236681afa28a' },
+];
+
+const SEASONS = [
+  {
+    name: 'Season 9 – Season of the Gacha',
+    badge: '🏆 Holo', tier:'gold',
+    rank:'95 / 9,850', top:'~1%', roots:'13/13', users:'13/13',
+    url:'https://labs.hackthebox.com/achievement/season/2216056/9'
+  },
+  {
+    name: 'Season 8 – Depths',
+    badge: '🏆 Platinum', tier:'silver',
+    rank:'739 / 8,036', top:'~9%', roots:'10/13', users:'10/13',
+    url:'https://labs.hackthebox.com/achievement/season/2216056/8'
+  },
+];
+
+const SEASONAL_BOXES = [
+  { name:'Facts',       diff:'Easy',        status:'✅', summary:'Camaleon CMS IDOR → admin privesc → MinIO credentials exposed in CMS config → AWS CLI bucket enum → SSH key extraction → JtR passphrase crack → sudo facter → arbitrary Ruby facts → root.',                                                                                                          url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Seasonal/Facts' },
+  { name:'Eloquia',     diff:'Insane',       status:'✅', summary:'Multi-layer enterprise compromise: web logic flaws → containerised service abuse → trust boundary violations → host-level escalation through operational tooling → persistence via insecure custom services → SYSTEM control.',                                                                       url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Seasonal/Eloquia' },
+  { name:'MonitorsFour',diff:'Easy',         status:'✅', summary:'Configuration leak → auth bypass → admin access in monitoring platform → RCE inside container → exposed container management interfaces → container escape → full Windows host compromise.',                                                                                                          url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Seasonal/Monitorsfour' },
+  { name:'Gavel',       diff:'Medium',       status:'✅', summary:'Leaked source → logic-level SQLi → credential recovery → admin feature abuse → arbitrary rule execution → privesc via misdesigned setuid client communicating with root-owned daemon.',                                                                                                              url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Seasonal/Gavel' },
+  { name:'Fries',       diff:'Hard',         status:'✅', summary:'Source-code disclosure → container service abuse → credential harvesting via internal tooling → Active Directory escalation using identity misconfiguration and certificate trust abuse → domain admin.',                                                                                            url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Seasonal/Fries' },
+  { name:'Eighteen',    diff:'Easy',         status:'✅', summary:'Low-priv access → MSSQL data exposure → credential recovery → lateral movement via remote management → modern AD abuse → full domain compromise.',                                                                                                                                                   url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Seasonal/Eighteen' },
+  { name:'NanoCorp',    diff:'Hard',         status:'✅', summary:'Corporate Windows AD: external web service abuse → credential exposure and reuse → AD enum with delegated rights → controlled account manipulation → SYSTEM via insecure monitoring infrastructure.',                                                                                                url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Seasonal/Nanocorp' },
+  { name:'Giveback',    diff:'Medium',       status:'✅', summary:'Third-party plugin abuse → container enum → credential leakage via service config → pivot across internal services → container escape → privileged runtime components → root on host.',                                                                                                              url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Seasonal/Giveback' },
+  { name:'Conversor',   diff:'Medium-Hard',  status:'✅', summary:'Web file-transform parser abuse → server-side upload/processing foothold → local DB/config secrets and reused credentials → sudo/service misconfigs → clean privesc to root.',                                                                                                                       url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Seasonal/Conversor' },
+  { name:'Hercules',    diff:'Insane',       status:'✅', summary:'Identity-first AD/PKI chain: foothold → enumerate AD ACLs and cert templates → abuse delegated rights → enable/reset accounts and modify OU ACLs → cert requests (on-behalf-of) → PFX → PEM → PKINIT → ccaches/TGTs → WinRM shells → S4U/S4U2Proxy → impersonate Administrator → domain owned.',  url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Seasonal/Hercules' },
+  { name:'Signed',      diff:'Medium',       status:'✅', summary:'MSSQL extended-proc enum → trigger SMB callback to capture NTLMv2 → crack hash → craft Kerberos silver ticket for MSSQL SPN → forged ticket → dbo/sysadmin → xp_cmdshell / OPENROWSET → flags and domain pivot.',                                                                                  url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Seasonal/Signed' },
+  { name:'DarkZero',    diff:'Hard',         status:'✅', summary:'Split-horizon DNS + linked MSSQL servers → xp_cmdshell foothold → Meterpreter → kernel exploit CVE-2024-30088 / hash-dump fallback → Rubeus ticket capture via xp_dirtree → pivots → Domain Admin.',                                                                                               url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Seasonal/DarkZero' },
+  { name:'Imagery',     diff:'Medium',       status:'✅', summary:'Image transform RCE → shell as web user → decrypt readable backup → recover creds → sudo /usr/local/bin/charcol scheduling abuse → root.',                                                                                                                                                           url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Seasonal/Imagery' },
+  { name:'Expressway',  diff:'Easy',         status:'✅', summary:'IKE Aggressive Mode PSK crack → SSH as ike → sudo -h offramp.expressway.htb → root.',                                                                                                                                                                                                               url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Seasonal/Expressway' },
+  { name:'Cobblestone', diff:'Hard',         status:'✅', summary:'Web foothold → DB creds → SSH tunnel to XML-RPC service → arbitrary file leak → root.',                                                                                                                                                                                                             url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Seasonal/Cobblestone' },
+  { name:'Editor',      diff:'Easy',         status:'✅', summary:'nvme compile bug → binary patch → buffer overflow → ROP chain → reverse shell → root.',                                                                                                                                                                                                            url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Seasonal/Editor' },
+  { name:'Era',         diff:'Medium',       status:'✅', summary:'Subdomain fuzz → SSRF via download preview → DB leak → web RCE → SUID bash → ASN1 signature bypass → root.',                                                                                                                                                                                       url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Seasonal/Era' },
+  { name:'Mirage',      diff:'Hard',         status:'✅', summary:'GetNPUsers → Kerberos ticket crack → shadow credentials → ESC1 abuse via Certipy → DA hash → root.',                                                                                                                                                                                               url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Seasonal/Mirage' },
+  { name:'Outbound',    diff:'Easy',         status:'✅', summary:'Web creds reuse → Roundcube RCE → container escape → MySQL plaintext leak → symlink overwrite to /etc/passwd → root.',                                                                                                                                                                              url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Seasonal/Outbound' },
+  { name:'Voleur',      diff:'Medium',       status:'✅', summary:'Kerberos TGT → SMB creds → DPAPI masterkey + creds → BloodHound path → SSH via id_rsa → Registry + NTDS.dit → secretsdump → getTGT → Domain Admin.',                                                                                                                                              url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Seasonal/Voleur' },
+  { name:'RustyKey',    diff:'Hard',         status:'✅', summary:'WinRM creds → BloodHound edge → GenericWrite → password reset → ProtectedUsers removal → S4U2Proxy → Domain Admin.',                                                                                                                                                                               url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Seasonal/Rustykey' },
+  { name:'Artificial',  diff:'Easy',         status:'✅', summary:'TensorFlow RCE via malicious model → SQLite loot → MD5 crack → RESTIC trick → SUID bash root.',                                                                                                                                                                                                    url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Seasonal/Artificial' },
+  { name:'Sorcery',     diff:'Insane',       status:'✅', summary:'Git leak → passkey bypass → Kafka RCE → Docker registry abuse → IPA privesc.',                                                                                                                                                                                                                      url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Seasonal/Sorcery' },
+  { name:'TombWatcher', diff:'Hard',         status:'✅', summary:'gMSA abuse → ACL pivot → deleted object restore → CVE exploitation → Domain Admin.',                                                                                                                                                                                                               url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Seasonal/Tombwatcher' },
+  { name:'Fluffy',      diff:'Hard',         status:'✅', summary:'NTLMv2 → shadow credentials → ADCS ESC1 → Pass-the-Cert → Domain Admin.',                                                                                                                                                                                                                          url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Seasonal/Fluffy' },
+  { name:'Puppy',       diff:'Medium',       status:'✅', summary:'LDAP enumeration → KeePass credential dump → password reset → DPAPI secrets → NTDS.dit dump.',                                                                                                                                                                                                      url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Seasonal/Puppy' },
+  { name:'Certificate', diff:'Medium',       status:'✅', summary:'Certificate template abuse → Certipy → Evil-WinRM → Administrator shell.',                                                                                                                                                                                                                          url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Seasonal/Certificate' },
+];
+
+const RETIRED_BOXES = [
+  { name:'Lock',          diff:'Easy',   status:'✅', summary:'Gitea CI/CD abuse → ASPX webshell → RDP creds via mRemoteNG config → PDF24 CVE‑2023‑49147 oplock race → SYSTEM shell.',                         url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Retired/Lock' },
+  { name:'Code',          diff:'Easy',   status:'✅', summary:'SQLi → MD5 crack → path traversal → SSH → root.',                                                                                               url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Retired/Code' },
+  { name:'Sauna',         diff:'Easy',   status:'✅', summary:'ASREPRoast → WinRM → winPEAS → autologon creds → DCSync via BloodHound → PsExec with Admin hash → root.',                                      url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Retired/Sauna' },
+  { name:'Kryptos Support',diff:'Medium',status:'✅', summary:'OAuth token leak → IDOR → XSS → JWT tamper → GPG decrypt → flag.',                                                                              url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Challenges/Kryptos_Support' },
+  { name:'Unicode',       diff:'Medium', status:'✅', summary:'JWT forgery → Host-split Unicode LFI → SSH as `code` → Python binary reverse via pyinstxtractor → root.',                                      url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Retired/Unicode' },
+  { name:'Sau',           diff:'Easy',   status:'✅', summary:'SSRF CVE-2023-27163 → Maltrail unauth RCE → shell as puma → sudo systemctl → root.',                                                           url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Retired/Sau' },
+  { name:'Support',       diff:'Medium', status:'✅', summary:'Kerberoast → AS-REP → impersonate S4U2Self → Rubeus abuse → Administrator shell.',                                                              url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Retired/Support' },
+  { name:'VulnEscape',    diff:'Easy',   status:'✅', summary:'RDP kiosk login → Edge file:// escape → CMD rename bypass → BulletPassView → runas → root.',                                                   url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Retired/Vulnescape' },
+  { name:'Reset',         diff:'Easy',   status:'✅', summary:'Password reset bypass → log poisoning RCE → rlogin + tmux hijack → sudo nano escape → root.',                                                  url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Retired/Reset' },
+  { name:'Ten',           diff:'Hard',   status:'✅', summary:'Web host creation → FTP traversal via DB edit → SSH key planting → Apache log pipe → root.',                                                    url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Retired/Ten' },
+  { name:'Data',          diff:'Easy',   status:'✅', summary:'Grafana LFI → DB dump → SHA-256 crack → Docker escape → root.',                                                                                 url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Retired/Data' },
+  { name:'Dog',           diff:'Easy',   status:'✅', summary:'Git repo dump → CMS RCE → PHP utility privilege escalation.',                                                                                    url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Retired/Dog' },
+  { name:'Cat',           diff:'Medium', status:'✅', summary:'Git repo leak → stored XSS cookie theft → SQLite SQLi → Apache logs → Gitea XSS for privesc.',                                                 url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Retired/Cat' },
+  { name:'Titanic',       diff:'Easy',   status:'✅', summary:'LFI → SQLite → Gitea → ImageMagick identify RCE → root.',                                                                                       url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Retired/Titanic' },
+  { name:'Administrator', diff:'Medium', status:'✅', summary:'AD domain takeover → Kerberoast → DCSync → Admin hash.',                                                                                         url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Retired/Administrator' },
+  { name:'Beep',          diff:'Medium', status:'✅', summary:'vtigerCRM LFI → legacy creds reuse → root via SSH.',                                                                                             url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Retired/Beep' },
+  { name:'Trick',         diff:'Medium', status:'✅', summary:'DNS zone transfer → SQLi → email RCE → fail2ban privesc.',                                                                                       url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Retired/Trick' },
+  { name:'Waldo',         diff:'Medium', status:'✅', summary:'LFI → SSH key → restricted shell escape → cap_dac_read abuse.',                                                                                  url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Retired/Waldo' },
+  { name:'Retro',         diff:'Medium', status:'✅', summary:'Certipy ESC1 abuse → machine account cert → authentication + hashdump.',                                                                         url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Retired/Retro' },
+  { name:'Down',          diff:'Easy',   status:'✅', summary:'LFI → command injection → pswm decrypt → sudo full root.',                                                                                       url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Retired/Down' },
+  { name:'Lame',          diff:'Easy',   status:'✅', summary:'Samba usermap exploit → SYSTEM shell.',                                                                                                          url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Retired/Lame' },
+  { name:'Blue',          diff:'Easy',   status:'✅', summary:'EternalBlue MS17-010 → SYSTEM shell.',                                                                                                           url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Retired/Blue' },
+  { name:'Optimum',       diff:'Easy',   status:'✅', summary:'Rejetto HFS RCE → SYSTEM with local exploit tools.',                                                                                             url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Retired/optimum' },
+  { name:'Bashed',        diff:'Easy',   status:'✅', summary:'Web fuzzing → PHP webshell → privesc via script abuse.',                                                                                         url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Retired/Bashed' },
+  { name:'Chemistry',     diff:'Easy',   status:'✅', summary:'File parser RCE → LFI → SSH key reuse.',                                                                                                        url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Retired/Chemistry' },
+  { name:'Headless',      diff:'Easy',   status:'✅', summary:'Blind XSS → cookie theft → command injection → root.',                                                                                          url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Retired/Headless' },
+  { name:'Alert',         diff:'Easy',   status:'✅', summary:'Markdown XSS → LFI → group permission privesc.',                                                                                                url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Retired/Alert' },
+  { name:'Writeup',       diff:'Easy',   status:'✅', summary:'CMS Made Simple SQLi → creds for jkr → PATH hijack via fake run-parts → root user injection.',                                                  url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Retired/Writeup' },
+  { name:'Bastion',       diff:'Easy',   status:'✅', summary:'SMB VHD mount → extract SAM+SYSTEM → crack creds → SSH as l4mpje → mRemoteNG config decrypt → Admin creds → root.',                           url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Retired/Bastion' },
+  { name:'Starting Point (Tier 0–2)', diff:'Varied', status:'✅', summary:'Fundamental boxes covering web, SMB, SSH, JWT, privesc, and enumeration — essential foundations for new pentesters.', url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/StartingPoint' },
+];
+
+const ACTIVE_BOXES = [
+  { name:'AirTouch',    diff:'Medium', status:'✅', summary:'SNMP credential disclosure → SSH → VLAN pivot → WPA2-PSK handshake capture and crack → file upload RCE → evil twin attack → MSCHAPv2 hash → corporate VLAN → root. (Teaser — full writeup on retirement)', url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Active/AirTouch' },
+  { name:'Browsed',     diff:'Medium', status:'✅', summary:'Browser extension upload → client-side code execution → SSRF to localhost services → command injection via arithmetic evaluation → Python bytecode cache poisoning → root. (Teaser)', url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Active/Browsed' },
+  { name:'Overwatch',   diff:'Medium', status:'✅', summary:'Guest SMB → .NET app hardcoded MSSQL creds → linked server enum → AD DNS write → DNS poisoning → Responder MITM → WinRM → WCF service → SOAP contract reverse → PowerShell command injection → SYSTEM. (Teaser)', url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Active/Overwatch' },
+  { name:'HackNet',     diff:'Hard',   status:'✅', summary:'SSTI + IDOR foothold → world-writable Django cache → pickle RCE → GPG-encrypted DB backup → root. (Teaser)', url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Active/HackNet' },
+  { name:'Soulmate',    diff:'Easy',   status:'✅', summary:'Subdomain discovery → CrushFTP CVE-2025-31161 → admin access → PHP webshell → SSH creds → Erlang shell → root. (Teaser)', url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Active/Soulmate' },
+  { name:'WhiteRabbit', diff:'Insane', status:'✅', summary:'Subdomain/service breadcrumbing → signed-webhook foothold → automation assist → backup workflow pivot → time-seeded randomness insight. (Teaser)', url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Active/WhiteRabbit' },
+  { name:'DarkCorp',    diff:'Insane', status:'⏳', summary:'Enterprise-style chain with careful web recon, internal pivoting, and identity-centric steps. Full writeup on retirement.', url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Active/DarkCorp' },
+  { name:'Guardian',    diff:'Hard',   status:'✅', summary:'Portal creds → SSH → config abuse → sudo safeapache2ctl → rootbash → root. (Teaser)', url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Active/Guardian' },
+  { name:'Previous',    diff:'Medium', status:'⏳', summary:'Modern web/API challenge — careful boundary checks and clean Linux escalation habits. Full writeup on retirement.', url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Active/Previous' },
+  { name:'CodeTwo',     diff:'Easy',   status:'⏳', summary:'Modern web app — targeted enum, boundary reading, Linux privesc. Full writeup on retirement.', url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Active/CodePartTwo' },
+  { name:'Planning',    diff:'Easy',   status:'✅', summary:'Subdomain → Grafana RCE → Docker escape → SUID privesc. (Teaser)', url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Active/Planning' },
+  { name:'Nocturnal',   diff:'Easy',   status:'✅', summary:'File leak → admin panel RCE → DB hash → SSH → CVE → root. (Teaser)', url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Active/Nocturnal' },
+  { name:'Environment', diff:'Medium', status:'✅', summary:'Laravel env bypass → avatar RCE → vault → sudo abuse. (Teaser)', url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/Active/Environment' },
+];
+
+const PROLABS = [
+  { name:'APTLabs',   tier:'Pro Lab',      status:'Completed', blurb:'External foothold → web → AD pivot → ACL abuse → DCSync → domain takeover.',                                              url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/ProLabs/APTLabs' },
+  { name:'Cybernetics',tier:'Pro Lab',     status:'Completed', blurb:'Web foothold → Kerberoast/AS-REP → constrained delegation → lateral movement → Domain Admin.',                            url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/ProLabs/Cybernetics' },
+  { name:'Offshore',  tier:'Pro Lab',      status:'Completed', blurb:'Perimeter recon → chained web footholds → pivots across segmented networks → AD enum/abuse → domain takeover.',           url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/ProLabs/Offshore' },
+  { name:'RastaLabs', tier:'Pro Lab',      status:'Completed', blurb:'Password spray → AS-REP/Kerberoast → BloodHound path → DCSync. Classic AD attack chain.',                                 url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/ProLabs/RastaLabs' },
+  { name:'Dante',     tier:'Pro Lab',      status:'Completed', blurb:'Perimeter → Linux/Windows mixed estate → credential reuse → AD escalation → Domain Admin.',                               url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/ProLabs/Dante' },
+  { name:'Zephyr',    tier:'Pro Lab',      status:'Completed', blurb:'Perimeter foothold → multi-segment pivots → internal tooling abuse → AD enumeration → domain takeover.',                  url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/ProLabs/Zephyr' },
+  { name:'Wanderer',  tier:'Pro Lab',      status:'Completed', blurb:'Web foothold → container/segmentation escape → AD pivot → privesc chain → Domain Admin.',                                 url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/ProLabs/Wanderer' },
+  { name:'Fortress AWS',tier:'Pro Lab',    status:'Completed', blurb:'IAM misconfigs → privilege escalation → S3/SSM pivoting → data exfiltration → persistence.',                              url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/ProLabs/FortressAWS' },
+  { name:'P.O.O',     tier:'Pro Lab',      status:'Completed', blurb:'SMB/SQL exposure → xp_cmdshell → potato to SYSTEM → AD pathing → Domain Admin.',                                          url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/ProLabs/POO' },
+  { name:'FullHouse', tier:'Mini Pro Lab', status:'Completed', blurb:'Source review → web → AD → reversing → AI/chain. Fun multi-discipline glue lab.',                                         url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/ProLabs/FullHouse' },
+  { name:'Solar',     tier:'Mini Pro Lab', status:'Completed', blurb:'Enumeration → situational awareness → FreeBSD exploitation → out-of-band data exfil → source code review.',               url:'https://github.com/inkedqt/ctf-writeups/tree/main/HTB/ProLabs/Solar' },
+];
+
+const THM_BOXES = [
+  { name:'FusionCorp',          diff:'Hard',  status:'✅', summary:'/backup leak → AS-REP roast (lparker) → LDAP desc creds (jmurphy) → Evil-WinRM → SeBackupPrivilege → Diskshadow VSS → NTDS dump → wmiexec.', url:'https://github.com/inkedqt/ctf-writeups/tree/main/Other/THM/FusionCorp' },
+  { name:'Ledger',              diff:'Hard',  status:'✅', summary:'LDAP creds in description → Password spray → RDP foothold → ADCS ESC1 via Certipy → pivot to BRADLEY_ORTIZ → PsExec → DA shell.', url:'https://github.com/inkedqt/ctf-writeups/tree/main/Other/THM/Ledger' },
+  { name:'Services',            diff:'Medium',status:'✅', summary:'User enum → Kerbrute → AS-REP roast (j.rock) → WinRM → Server Operators service abuse → SYSTEM.', url:'https://github.com/inkedqt/ctf-writeups/tree/main/Other/THM/Services' },
+  { name:'LazyAdmin',           diff:'Easy',  status:'✅', summary:'SweetRice backup leak → MD5 crack → PHP upload → webshell → sudo perl → overwrite /etc/copy.sh → root.', url:'https://github.com/inkedqt/ctf-writeups/tree/main/Other/THM/LazyAdmin' },
+  { name:'ArchAngel',           diff:'Easy',  status:'✅', summary:'LFI on test.php → Apache log poisoning via User-Agent → RCE → cron overwrite → SUID PATH hijack → root.', url:'https://github.com/inkedqt/ctf-writeups/tree/main/Other/THM/ArchAngel' },
+  { name:'Attacktive Directory',diff:'Easy',  status:'✅', summary:'Kerbrute userenum → AS-REP roast → SMB loot → backup creds → RDP → secretsdump → psexec → root.', url:'https://github.com/inkedqt/ctf-writeups/tree/main/Other/THM/AttacktiveDirectory' },
+  { name:"VulnNet: Roasted",    diff:'Easy',  status:'✅', summary:'SMB enum → AS-REP roast → user shell via WinRM → SYSVOL creds → DA hash dump → root.', url:'https://github.com/inkedqt/ctf-writeups/tree/main/Other/THM/VulnNet-Roasted' },
+  { name:'Corp',                diff:'Easy',  status:'✅', summary:'AppLocker bypass → Kerberoast → crack hash → unattended.xml creds → psexec as Administrator.', url:'https://github.com/inkedqt/ctf-writeups/tree/main/Other/THM/Corp' },
+];
+
+const PG_BOXES = [
+  { name:'Twiggy', diff:'Easy', status:'✅', summary:'SaltStack CVE-2020-11652 RCE → root shell.', url:'https://github.com/inkedqt/ctf-writeups/tree/main/Other/PG/Twiggy' },
+  { name:'ClamAV', diff:'Easy', status:'✅', summary:'SNMP leaks clamav-milter → CVE-2007-4560 Sendmail RCE → inetd shell → root.', url:'https://github.com/inkedqt/ctf-writeups/tree/main/Other/PG/ClamAV' },
+  { name:'Mice',   diff:'Easy', status:'✅', summary:'RemoteMouse 3.008 RCE → FileZilla creds → GUI LPE to SYSTEM.', url:'https://github.com/inkedqt/ctf-writeups/tree/main/Other/PG/Mice' },
+];
+
+const HS_BOXES = [
+  { name:'BuildingMagic', diff:'Medium', status:'✅', summary:'AS-REP/Kerberoast → foothold → BloodHound path → Domain Admin.', url:'https://github.com/inkedqt/ctf-writeups/tree/main/Other/HackSmarter/BuildingMagic' },
+  { name:'ShareThePain',  diff:'Medium', status:'✅', summary:'MSSQL xp_cmdshell → SYSTEM via potato → optional ligolo-ng pivot.', url:'https://github.com/inkedqt/ctf-writeups/tree/main/Other/HackSmarter/ShareThePain' },
+  { name:'PivotSmarter',  diff:'Basic',  status:'✅', summary:'SOCKS/TUN pivots via ligolo-ng/chisel → internal subnet enum → multi-hop routes → AD reachability and lateral movement.', url:'https://github.com/inkedqt/ctf-writeups/tree/main/Other/HackSmarter/PivotSmarter' },
+];
+
+// ── RENDER ──────────────────────────────────────────────────────────
+
+function diffClass(d) {
+  const map = { easy:'easy', medium:'medium', hard:'hard', insane:'insane', season:'season', varied:'varied', basic:'basic', 'medium-hard':'hard' };
+  return 'diff-' + (map[d.toLowerCase()] || 'varied');
+}
+
+function renderCerts() {
+  document.getElementById('certs-grid').innerHTML = CERTS.map(c => `
+    <div class="cert-card">
+      <div class="cert-abbr">${c.abbr}</div>
+      <div class="cert-name">${c.name}</div>
+      <a class="cert-link" href="${c.url}" target="_blank">verify →</a>
+    </div>
+  `).join('');
+}
+
+function renderSeasons() {
+  document.getElementById('season-grid').innerHTML = SEASONS.map(s => `
+    <div class="season-card ${s.tier}">
+      <div class="season-glow"></div>
+      <div class="season-badge-line">${s.badge}</div>
+      <div class="season-name">${s.name}</div>
+      <div class="season-stat-row">
+        <div class="season-stat">
+          <div class="season-stat-val">${s.top}</div>
+          <div class="season-stat-key">Global Rank</div>
+        </div>
+        <div class="season-stat">
+          <div class="season-stat-val cx">${s.rank.split('/')[0].trim()}</div>
+          <div class="season-stat-key">of ${s.rank.split('/')[1].trim()}</div>
+        </div>
+        <div class="season-stat">
+          <div class="season-stat-val" style="font-size:15px">${s.roots}</div>
+          <div class="season-stat-key">Roots</div>
+        </div>
+      </div>
+      <a class="season-link" href="${s.url}" target="_blank">view achievement →</a>
+    </div>
+  `).join('');
+}
+
+function renderBoxCard(b) {
+  const dc = diffClass(b.diff);
+  const link = b.url ? `<a class="box-link" href="${b.url}" target="_blank">writeup</a>` : '';
+  return `
+    <div class="box-card" data-name="${b.name.toLowerCase()}" data-diff="${b.diff.toLowerCase()}">
+      <div class="proof-thumb"></div>
+      <div class="box-card-top">
+        <div class="box-name">${b.name}</div>
+        <span class="diff-badge ${dc}">${b.diff}</span>
+      </div>
+      <div class="box-summary">${b.summary}</div>
+      <div class="box-footer">
+        <div class="box-links">${link}</div>
+        <span class="box-status">${b.status}</span>
+      </div>
+    </div>
+  `;
+}
+
+function renderBoxGrid(data, gridId) {
+  document.getElementById(gridId).innerHTML = data.map(renderBoxCard).join('');
+}
+
+function renderProlabs() {
+  document.getElementById('prolabs-grid').innerHTML = PROLABS.map(p => `
+    <div class="prolab-card">
+      <div class="prolab-tier">${p.tier}</div>
+      <div class="prolab-name">${p.name}</div>
+      <div class="prolab-status">${p.status}</div>
+      <div class="prolab-blurb">${p.blurb}</div>
+      <a class="prolab-link" href="${p.url}" target="_blank">view writeup →</a>
+    </div>
+  `).join('');
+}
+
+function renderAll() {
+  renderCerts();
+  renderSeasons();
+  renderBoxGrid(SEASONAL_BOXES, 'seasonal-box-grid');
+  renderBoxGrid(RETIRED_BOXES,  'retired-box-grid');
+  renderBoxGrid(ACTIVE_BOXES,   'active-box-grid');
+  renderProlabs();
+  renderBoxGrid(THM_BOXES, 'thm-grid');
+  renderBoxGrid(PG_BOXES,  'pg-grid');
+  renderBoxGrid(HS_BOXES,  'hs-grid');
+
+  const total = SEASONAL_BOXES.length + RETIRED_BOXES.length + ACTIVE_BOXES.length;
+  document.getElementById('box-total-count').textContent = `${total} total`;
+}
+
+// ── TABS ─────────────────────────────────────────────────────────────
+function initTabs(tabsId) {
+  const tabs = document.getElementById(tabsId);
+  if (!tabs) return;
+  tabs.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabs.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const target = 'tab-' + btn.dataset.tab;
+      document.querySelectorAll(`#tab-${btn.dataset.tab}`).forEach(p => {
+        document.querySelectorAll('.tab-panel').forEach(tp => {
+          if (tp.parentElement === document.getElementById(tabsId).nextElementSibling?.parentElement || true) {
+            // handled below
+          }
+        });
+      });
+      // Find sibling panels by section
+      const section = tabs.closest('section') || tabs.parentElement;
+      section.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      const panel = document.getElementById('tab-' + btn.dataset.tab);
+      if (panel) panel.classList.add('active');
+    });
+  });
+}
+
+// ── FILTER ───────────────────────────────────────────────────────────
+function initFilters() {
+  document.querySelectorAll('.filter-search').forEach(input => {
+    input.addEventListener('input', () => applyFilter(input.dataset.target));
+  });
+  document.querySelectorAll('.filter-btn[data-diff]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.dataset.target;
+      const wasActive = btn.classList.contains('active');
+      // deactivate all buttons for this target
+      document.querySelectorAll(`.filter-btn[data-target="${target}"]`).forEach(b => b.classList.remove('active'));
+      if (!wasActive) btn.classList.add('active');
+      applyFilter(target);
+    });
+  });
+}
+
+function applyFilter(gridId) {
+  const grid    = document.getElementById(gridId);
+  if (!grid) return;
+  const searchEl  = document.querySelector(`.filter-search[data-target="${gridId}"]`);
+  const activeBtn = document.querySelector(`.filter-btn[data-target="${gridId}"].active`);
+  const query   = searchEl ? searchEl.value.toLowerCase().trim() : '';
+  const diff    = activeBtn ? activeBtn.dataset.diff : null;
+
+  let visible = 0;
+  grid.querySelectorAll('.box-card').forEach(card => {
+    const nameMatch    = card.dataset.name.includes(query);
+    const summaryEl    = card.querySelector('.box-summary');
+    const summaryMatch = summaryEl && summaryEl.textContent.toLowerCase().includes(query);
+    const diffMatch    = !diff || card.dataset.diff.toLowerCase().startsWith(diff);
+    const show = (nameMatch || summaryMatch) && diffMatch;
+    card.style.display = show ? '' : 'none';
+    if (show) visible++;
+  });
+  const empty = document.getElementById(gridId + '-empty');
+  if (empty) empty.style.display = visible === 0 ? 'block' : 'none';
+}
+
+// ── INIT ─────────────────────────────────────────────────────────────
+renderAll();
+initTabs('box-tabs');
+initTabs('platform-tabs');
+initFilters();
+</script>
+</body>
+</html>
