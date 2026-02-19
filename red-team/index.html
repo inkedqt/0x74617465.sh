@@ -775,7 +775,7 @@ footer {
         <div class="hstat-label">S9 Badge</div>
       </div>
       <div class="hstat">
-        <div class="hstat-val cx">55+</div>
+        <div class="hstat-val cx" id="hero-box-count">0</div>
         <div class="hstat-label">HTB Boxes</div>
       </div>
       <div class="hstat">
@@ -1159,6 +1159,7 @@ function renderAll() {
 
   const total = SEASONAL_BOXES.length + RETIRED_BOXES.length + ACTIVE_BOXES.length;
   document.getElementById('box-total-count').textContent = `${total} total`;
+  document.getElementById('hero-box-count').textContent = total;
 }
 
 // ── TABS ─────────────────────────────────────────────────────────────
