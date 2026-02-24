@@ -590,6 +590,26 @@ section:last-child { border-bottom: none; }
   transition: color 0.2s;
 }
 .prolab-link:hover { color: var(--cyan); }
+.prolab-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.tier-badge {
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 3px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-family: 'DM Mono', monospace;
+}
+.tier-pro  { background: rgba(0,245,212,0.12); color: var(--cyan); border: 1px solid var(--cyan-dim); }
+.tier-mini { background: rgba(255,209,102,0.12); color: var(--gold); border: 1px solid var(--gold-dim); }
 
 /* ── TABS (other platforms) ── */
 .tabs {
@@ -1028,17 +1048,21 @@ function renderBoxGrid(data, gridId) {
 }
 
 function renderProlabs() {
-  document.getElementById('prolabs-grid').innerHTML = PROLABS.map(p => `
-    <div class="prolab-card">
-      <div class="prolab-tier">${p.tier || 'Pro Lab'}</div>
-      <div class="prolab-name">${p.name}</div>
-      <div class="prolab-status">${p.status || '✅'}</div>
-      <div class="prolab-blurb">${p.blurb || p.summary || ''}</div>
-      <a class="prolab-link" href="${p.url}" target="_blank">view writeup →</a>
-    </div>
-  `).join('');
+  document.getElementById('prolabs-grid').innerHTML = PROLABS.map(p => {
+    const tierClass = (p.tier || '').toLowerCase().includes('mini') ? 'tier-mini' : 'tier-pro';
+    return `
+      <div class="prolab-card">
+        <div class="prolab-card-top">
+          <div class="prolab-name">${p.name}</div>
+          <span class="tier-badge ${tierClass}">${p.tier || 'Pro Lab'}</span>
+        </div>
+        <div class="prolab-status">${p.status || '✅'}</div>
+        <div class="prolab-blurb">${p.blurb || p.summary || ''}</div>
+        <a class="prolab-link" href="${p.url}" target="_blank">view writeup →</a>
+      </div>
+    `;
+  }).join('');
 }
-
 function renderAll() {
   renderCerts();
   renderSeasons();
