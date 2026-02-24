@@ -5,10 +5,13 @@ platform: "HackTheBox"
 category: "seasonal"
 difficulty: "Unknown"
 permalink: /writeups/seasonal/interpreter/
-date: 2026-02-22
+date: 2026-02-24
 pwned: true
 ---
 # 🩸 HTB — Interpreter | Medium | Linux
+
+## Summary
+Nmap + Nessus version fingerprint → CVE unauthenticated RCE (Mirth Connect) → config pillage → MariaDB PBKDF2-HMAC-SHA256 hash → Hashcat mode 10900 → SSH → localhost Flask API source review → eval() f-string injection → regex space filter bypass via __import__ → SUID bash → root
 
 > No spoilers. Just vibes, nudges, and the occasional raised eyebrow.
 
