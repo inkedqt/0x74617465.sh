@@ -3,7 +3,7 @@ layout: writeup
 name: "Planning"
 platform: "HackTheBox"
 category: "active"
-difficulty: "Unknown"
+difficulty: "Easy"
 permalink: /writeups/active/planning/
 date: 2025-11-12
 pwned: true

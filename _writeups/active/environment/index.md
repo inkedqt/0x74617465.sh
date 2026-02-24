@@ -3,7 +3,7 @@ layout: writeup
 name: "Environment"
 platform: "HackTheBox"
 category: "active"
-difficulty: "Unknown"
+difficulty: "Medium"
 permalink: /writeups/active/environment/
 date: 2025-11-12
 pwned: true

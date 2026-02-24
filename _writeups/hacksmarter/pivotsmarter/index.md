@@ -3,7 +3,7 @@ layout: writeup
 name: "PivotSmarter"
 platform: "HackSmarter"
 category: "hacksmarter"
-difficulty: "Unknown"
+difficulty: "Easy"
 permalink: /writeups/hacksmarter/pivotsmarter/
 date: 2025-11-12
 pwned: true

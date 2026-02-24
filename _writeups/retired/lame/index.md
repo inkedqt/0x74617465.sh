@@ -3,7 +3,7 @@ layout: writeup
 name: "lame"
 platform: "HackTheBox"
 category: "retired"
-difficulty: "Unknown"
+difficulty: "Easy"
 permalink: /writeups/retired/lame/
 date: 2025-11-12
 pwned: true

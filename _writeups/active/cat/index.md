@@ -3,7 +3,7 @@ layout: writeup
 name: "Cat"
 platform: "HackTheBox"
 category: "active"
-difficulty: "Unknown"
+difficulty: "Medium"
 permalink: /writeups/active/cat/
 date: 2025-11-12
 pwned: true

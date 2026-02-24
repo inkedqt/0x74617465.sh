@@ -3,7 +3,7 @@ layout: writeup
 name: "Fries"
 platform: "HackTheBox"
 category: "seasonal"
-difficulty: "Unknown"
+difficulty: "Hard"
 permalink: /writeups/seasonal/fries/
 os: "Hack The Box  Seasonal Hard  Hybrid Linux  Windows  AD"
 date: 2025-12-23

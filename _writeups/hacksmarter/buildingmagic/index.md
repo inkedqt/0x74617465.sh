@@ -3,7 +3,7 @@ layout: writeup
 name: "BuildingMagic"
 platform: "HackSmarter"
 category: "hacksmarter"
-difficulty: "Unknown"
+difficulty: "Medium"
 permalink: /writeups/hacksmarter/buildingmagic/
 date: 2025-11-12
 pwned: true

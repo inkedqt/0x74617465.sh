@@ -3,7 +3,7 @@ layout: writeup
 name: "FusionCorp"
 platform: "TryHackMe"
 category: "thm"
-difficulty: "Unknown"
+difficulty: "Hard"
 permalink: /writeups/thm/fusioncorp/
 os: "Windows AD DC"
 date: 2025-11-12

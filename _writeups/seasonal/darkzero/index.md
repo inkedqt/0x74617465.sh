@@ -3,7 +3,7 @@ layout: writeup
 name: "DarkZero"
 platform: "HackTheBox"
 category: "seasonal"
-difficulty: "Unknown"
+difficulty: "Hard"
 permalink: /writeups/seasonal/darkzero/
 os: "Hack The Box  Machine"
 date: 2025-11-12

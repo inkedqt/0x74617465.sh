@@ -3,7 +3,7 @@ layout: writeup
 name: "ShareThePain"
 platform: "HackSmarter"
 category: "hacksmarter"
-difficulty: "Unknown"
+difficulty: "Medium"
 permalink: /writeups/hacksmarter/sharethepain/
 date: 2025-11-12
 pwned: true

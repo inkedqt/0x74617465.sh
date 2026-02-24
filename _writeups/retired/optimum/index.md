@@ -3,7 +3,7 @@ layout: writeup
 name: "optimum"
 platform: "HackTheBox"
 category: "retired"
-difficulty: "Unknown"
+difficulty: "Easy"
 permalink: /writeups/retired/optimum/
 date: 2025-11-12
 pwned: true

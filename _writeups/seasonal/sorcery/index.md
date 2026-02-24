@@ -3,7 +3,7 @@ layout: writeup
 name: "Sorcery"
 platform: "HackTheBox"
 category: "seasonal"
-difficulty: "Unknown"
+difficulty: "Insane"
 permalink: /writeups/seasonal/sorcery/
 date: 2025-11-12
 pwned: true

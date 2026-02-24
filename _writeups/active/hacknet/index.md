@@ -3,7 +3,7 @@ layout: writeup
 name: "HackNet"
 platform: "HackTheBox"
 category: "active"
-difficulty: "Unknown"
+difficulty: "Hard"
 permalink: /writeups/active/hacknet/
 os: "Hack The Box  Machine"
 date: 2025-11-12

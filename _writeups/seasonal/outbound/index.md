@@ -3,7 +3,7 @@ layout: writeup
 name: "Outbound"
 platform: "HackTheBox"
 category: "seasonal"
-difficulty: "Unknown"
+difficulty: "Easy"
 permalink: /writeups/seasonal/outbound/
 date: 2025-11-12
 pwned: true

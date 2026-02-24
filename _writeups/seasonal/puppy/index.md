@@ -3,7 +3,7 @@ layout: writeup
 name: "Puppy"
 platform: "HackTheBox"
 category: "seasonal"
-difficulty: "Unknown"
+difficulty: "Medium"
 permalink: /writeups/seasonal/puppy/
 date: 2025-11-12
 pwned: true
