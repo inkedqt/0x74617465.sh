@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ page.name }} // {{ page.difficulty }} // 0x74617465.sh</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Syne+Mono&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black:       #050508;
+  --deep:        #08080f;
+  --panel:       #0c0c18;
+  --pink:        #ff66c4;
+  --pink-dim:    rgba(255,102,196,0.4);
+  --pink-faint:  rgba(255,102,196,0.07);
+  --cyan:        #00f5d4;
+  --cyan-dim:    rgba(0,245,212,0.4);
+  --cyan-faint:  rgba(0,245,212,0.07);
+  --gold:        #ffd166;
+  --gold-dim:    rgba(255,209,102,0.4);
+  --gold-faint:  rgba(255,209,102,0.07);
+  --orange:      #ff8c00;
+  --orange-dim:  rgba(255,140,0,0.4);
+  --orange-faint:rgba(255,140,0,0.07);
+  --green:       #00ff88;
+  --green-dim:   rgba(0,255,136,0.4);
+  --green-faint: rgba(0,255,136,0.07);
+  --red:         #ff6b6b;
+  --muted:       #2a2a45;
+  --subtle:      #4a4a6a;
+  --text:        #c8c8e8;
+  --text-dim:    #7a7a9a;
+
+  /* difficulty accent — overridden per box */
+  --diff-color:  var(--cyan);
+  --diff-dim:    var(--cyan-dim);
+  --diff-faint:  var(--cyan-faint);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--text);
+  font-family: 'DM Mono', monospace;
+  font-weight: 300;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background:
+    linear-gradient(#1a1a2e 1px, transparent 1px),
+    linear-gradient(90deg, #1a1a2e 1px, transparent 1px);
+  background-size: 36px 36px;
+  opacity: 0.08;
+  pointer-events: none; z-index: 0;
+}
+
+.scanline {
+  position: fixed; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--pink-dim), transparent);
+  animation: scan 9s linear infinite;
+  opacity: 0.15; z-index: 999; pointer-events: none;
+}
+@keyframes scan { 0%{top:-1px} 100%{top:100%} }
+
+/* ── NAV ── */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(5,5,8,0.95);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--muted);
+  padding: 0 clamp(16px,5vw,80px);
+  display: flex; align-items: center;
+  justify-content: space-between; height: 52px;
+}
+.nav-brand {
+  font-family: 'Syne Mono', monospace;
+  font-size: 14px; color: var(--text);
+  text-decoration: none; letter-spacing: 0.02em;
+}
+.nav-brand .px { color: var(--pink); text-shadow: 0 0 20px var(--pink-dim); }
+.nav-brand .cx { color: var(--cyan); }
+.nav-back {
+  font-size: 10px; letter-spacing: 0.15em;
+  color: var(--subtle); text-decoration: none;
+  border: 1px solid var(--muted); padding: 4px 10px;
+  transition: all 0.2s;
+}
+.nav-back:hover { color: var(--pink); border-color: var(--pink-dim); }
+
+/* ── LAYOUT ── */
+.wrap {
+  position: relative; z-index: 1;
+  max-width: 820px; margin: 0 auto;
+  padding: 52px clamp(16px,5vw,48px) 80px;
+}
+
+/* ── BOX HEADER ── */
+.box-header {
+  padding-bottom: 36px;
+  border-bottom: 1px solid var(--muted);
+  margin-bottom: 40px;
+}
+
+.box-eyebrow {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 9px; letter-spacing: 0.35em;
+  text-transform: uppercase; color: var(--subtle);
+  margin-bottom: 14px;
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+}
+.eyebrow-os {
+  color: var(--text-dim);
+  border: 1px solid var(--muted);
+  padding: 1px 8px;
+}
+
+/* Box name */
+.box-name {
+  font-family: 'Syne Mono', monospace;
+  font-size: clamp(32px, 6vw, 52px);
+  line-height: 1;
+  margin-bottom: 16px;
+  letter-spacing: 0.03em;
+}
+/* colour set by difficulty wrapper class */
+.diff-easy   .box-name { color: var(--cyan);   text-shadow: 0 0 50px var(--cyan-dim); }
+.diff-medium .box-name { color: var(--gold);   text-shadow: 0 0 50px var(--gold-dim); }
+.diff-hard   .box-name { color: var(--orange); text-shadow: 0 0 50px var(--orange-dim); }
+.diff-insane .box-name { color: var(--pink);   text-shadow: 0 0 50px var(--pink-dim); }
+
+/* Badge bar */
+.box-badge-bar {
+  display: flex; gap: 6px; flex-wrap: wrap;
+  align-items: center; margin-bottom: 14px;
+}
+.badge {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 8px; letter-spacing: 0.2em;
+  text-transform: uppercase; padding: 3px 10px;
+  border: 1px solid;
+}
+.badge-easy   { border-color: var(--cyan-dim);   color: var(--cyan);   background: var(--cyan-faint); }
+.badge-medium { border-color: var(--gold-dim);   color: var(--gold);   background: var(--gold-faint); }
+.badge-hard   { border-color: var(--orange-dim); color: var(--orange); background: var(--orange-faint); }
+.badge-insane { border-color: var(--pink-dim);   color: var(--pink);   background: var(--pink-faint); }
+.badge-linux  { border-color: var(--cyan-dim);   color: var(--cyan);   background: var(--cyan-faint); }
+.badge-windows{ border-color: var(--gold-dim);   color: var(--gold);   background: var(--gold-faint); }
+.badge-retired{ border-color: var(--muted);      color: var(--subtle); background: transparent; }
+.badge-active { border-color: var(--green-dim);  color: var(--green);  background: var(--green-faint); }
+.badge-pwned  { border-color: var(--green-dim);  color: var(--green);  background: var(--green-faint); }
+.badge-platform{ border-color: var(--orange-dim); color: var(--orange); background: var(--orange-faint); }
+
+/* MITRE pills */
+.mitre-row { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 14px; }
+.mitre-pill {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 7px; letter-spacing: 0.15em;
+  text-transform: uppercase; padding: 2px 8px;
+  border: 1px solid rgba(255,102,196,0.25);
+  color: rgba(255,102,196,0.7); background: var(--pink-faint);
+}
+.tag-pill {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 7px; letter-spacing: 0.15em;
+  text-transform: uppercase; padding: 2px 8px;
+  border: 1px solid rgba(0,245,212,0.2);
+  color: rgba(0,245,212,0.6); background: var(--cyan-faint);
+}
+
+/* Action links */
+.box-links-bar { display: flex; gap: 8px; margin-top: 18px; flex-wrap: wrap; }
+.box-ext-link {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 9px; letter-spacing: 0.18em;
+  text-transform: uppercase; text-decoration: none;
+  padding: 6px 14px; border: 1px solid; transition: all 0.2s;
+}
+.box-ext-link.htb   { color: var(--green); border-color: var(--green-dim); }
+.box-ext-link.htb:hover { background: var(--green-faint); }
+.box-ext-link.back  { color: var(--subtle); border-color: var(--muted); }
+.box-ext-link.back:hover { color: var(--pink); border-color: var(--pink-dim); }
+
+/* Pwned banner */
+.pwned-bar {
+  margin-top: 20px;
+  padding: 12px 18px;
+  background: var(--green-faint);
+  border: 1px solid var(--green-dim);
+  border-left: 3px solid var(--green);
+  display: flex; align-items: center; gap: 12px;
+}
+.pwned-label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 8px; letter-spacing: 0.25em;
+  text-transform: uppercase; color: var(--text-dim);
+}
+.pwned-value {
+  font-family: 'Syne Mono', monospace;
+  font-size: 13px; color: var(--green);
+  text-shadow: 0 0 20px var(--green-dim);
+}
+
+/* ── WRITEUP CONTENT ── */
+.writeup-content {
+  line-height: 1.8; letter-spacing: 0.03em;
+  font-size: clamp(12px, 1.5vw, 13.5px);
+  color: var(--text-dim);
+}
+
+.writeup-content h2 {
+  font-family: 'Syne Mono', monospace;
+  font-size: clamp(13px, 1.8vw, 17px);
+  color: var(--pink); letter-spacing: 0.04em;
+  margin: 44px 0 14px;
+  padding-bottom: 8px; border-bottom: 1px solid var(--muted);
+}
+.writeup-content h3 {
+  font-family: 'Syne Mono', monospace;
+  font-size: clamp(12px, 1.5vw, 14px);
+  color: var(--cyan); letter-spacing: 0.04em;
+  margin: 28px 0 10px;
+}
+.writeup-content h4 {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px; color: var(--text);
+  letter-spacing: 0.1em; text-transform: uppercase;
+  margin: 20px 0 8px;
+}
+.writeup-content p { margin-bottom: 14px; color: var(--text-dim); }
+.writeup-content strong { color: var(--text); font-weight: 500; }
+.writeup-content em { color: var(--cyan); font-style: normal; }
+
+.writeup-content blockquote {
+  border-left: 2px solid var(--pink);
+  background: var(--pink-faint);
+  padding: 14px 18px; margin: 20px 0;
+  color: var(--text); font-size: 12px; line-height: 1.8;
+}
+.writeup-content blockquote p { margin: 0; color: var(--text); }
+
+.writeup-content code {
+  font-family: 'Share Tech Mono', monospace; font-size: 11px;
+  background: rgba(255,102,196,0.08); color: var(--pink);
+  padding: 1px 6px; border: 1px solid rgba(255,102,196,0.15);
+}
+.writeup-content pre {
+  background: var(--deep); border: 1px solid var(--muted);
+  border-left: 2px solid var(--pink-dim);
+  padding: 14px 18px; margin: 18px 0; overflow-x: auto;
+}
+.writeup-content pre code {
+  background: none; border: none; padding: 0;
+  color: var(--pink); font-size: 12px; line-height: 1.7;
+}
+
+.writeup-content table {
+  width: 100%; border-collapse: collapse;
+  margin: 20px 0; font-size: 11px;
+  font-family: 'Share Tech Mono', monospace;
+}
+.writeup-content th {
+  background: var(--panel); color: var(--pink);
+  font-size: 8px; letter-spacing: 0.2em; text-transform: uppercase;
+  padding: 9px 12px; text-align: left; border: 1px solid var(--muted);
+}
+.writeup-content td {
+  padding: 7px 12px; border: 1px solid var(--muted);
+  color: var(--text-dim); vertical-align: top;
+}
+.writeup-content tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+.writeup-content tr:hover td { background: var(--pink-faint); }
+
+.writeup-content ul, .writeup-content ol { padding-left: 20px; margin-bottom: 14px; }
+.writeup-content li { margin-bottom: 5px; color: var(--text-dim); line-height: 1.7; }
+.writeup-content ul li::marker { color: var(--pink); }
+.writeup-content ol li::marker {
+  color: var(--cyan); font-family: 'Share Tech Mono', monospace; font-size: 11px;
+}
+
+.writeup-content img {
+  max-width: 100%; height: auto; border: 1px solid var(--muted);
+  margin: 18px 0; display: block;
+  filter: brightness(0.9) saturate(1.1);
+  transition: filter 0.3s, border-color 0.3s;
+}
+.writeup-content img:hover {
+  filter: brightness(1) saturate(1.2); border-color: var(--pink-dim);
+}
+
+.writeup-content hr { border: none; border-top: 1px solid var(--muted); margin: 36px 0; }
+
+.writeup-content a {
+  color: var(--cyan); text-decoration: none;
+  border-bottom: 1px solid rgba(0,245,212,0.2);
+  transition: border-color 0.2s, color 0.2s;
+}
+.writeup-content a:hover { color: var(--pink); border-color: var(--pink-dim); }
+
+/* ── FOOTER NAV ── */
+.writeup-footer-nav {
+  display: flex; justify-content: space-between;
+  align-items: center; padding-top: 40px;
+  margin-top: 60px; border-top: 1px solid var(--muted);
+  flex-wrap: wrap; gap: 12px;
+}
+.footer-nav-link {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 9px; letter-spacing: 0.18em;
+  text-transform: uppercase; text-decoration: none;
+  color: var(--subtle); border: 1px solid var(--muted);
+  padding: 6px 14px; transition: all 0.2s;
+}
+.footer-nav-link:hover { color: var(--pink); border-color: var(--pink-dim); }
+.footer-brand { font-family: 'Syne Mono', monospace; font-size: 12px; }
+.footer-brand .px { color: var(--pink); }
+.footer-brand .cx { color: var(--cyan); }
+
+@media(max-width:600px) {
+  .box-badge-bar { gap: 4px; }
+}
+</style>
+</head>
+<body>
+<div class="scanline"></div>
+
+<nav>
+  <a class="nav-brand" href="/">
+    <span class="px">0x74617465</span><span class="cx">.sh</span>
+  </a>
+  <a class="nav-back" href="/#boxes">← boxes</a>
+</nav>
+
+<div class="wrap">
+  <div class="box-header diff-{{ page.difficulty | downcase }}">
+
+    <div class="box-eyebrow">
+      <span>// htb writeup</span>
+      {% if page.os %}
+        <span class="eyebrow-os">{{ page.os }}</span>
+      {% endif %}
+      {% if page.date %}
+        <span>{{ page.date | date: "%Y-%m-%d" }}</span>
+      {% endif %}
+    </div>
+
+    <div class="box-name">{{ page.name | default: page.title }}</div>
+
+    <div class="box-badge-bar">
+      <span class="badge badge-platform">HackTheBox</span>
+      {% if page.difficulty %}
+        <span class="badge badge-{{ page.difficulty | downcase }}">{{ page.difficulty }}</span>
+      {% endif %}
+      {% if page.os %}
+        <span class="badge badge-{{ page.os | downcase }}">{{ page.os }}</span>
+      {% endif %}
+      {% if page.status %}
+        <span class="badge badge-{{ page.status | downcase }}">{{ page.status }}</span>
+      {% endif %}
+      {% if page.retired == true or page.retired == "true" %}
+        <span class="badge badge-retired">retired</span>
+      {% endif %}
+    </div>
+
+    {% if page.tags %}
+    <div class="mitre-row">
+      {% for tag in page.tags %}
+        {% assign tag_lower = tag | downcase %}
+        {% if tag_lower contains "t1" %}
+          <span class="mitre-pill">{{ tag }}</span>
+        {% else %}
+          <span class="tag-pill">{{ tag }}</span>
+        {% endif %}
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="box-links-bar">
+      {% if page.htb_url %}
+        <a class="box-ext-link htb" href="{{ page.htb_url }}" target="_blank">view on htb →</a>
+      {% endif %}
+      <a class="box-ext-link back" href="/#boxes">← all boxes</a>
+    </div>
+
+    {% if page.pwned %}
+    <div class="pwned-bar">
+      <span class="pwned-label">root obtained</span>
+      <span class="pwned-value">// PWNED</span>
+    </div>
+    {% endif %}
+
+  </div>
+
+  <!-- WRITEUP CONTENT -->
+  <div class="writeup-content">
+    {{ content }}
+  </div>
+
+  <div class="writeup-footer-nav">
+    <a class="footer-nav-link" href="/#boxes">← all boxes</a>
+    <span class="footer-brand">
+      <span class="px">0x74617465</span><span class="cx">.sh</span>
+    </span>
+    <a class="footer-nav-link" href="https://inksec.io" target="_blank">blue team →</a>
+  </div>
+
+</div>
+</body>
+</html>
