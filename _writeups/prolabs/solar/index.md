@@ -6,7 +6,7 @@ category: "prolabs"
 difficulty: "Intermediate"
 permalink: /writeups/prolabs/solar/
 os: "Hack The Box  Pro Labs"
-date: 2025-11-12
+date: 2026-02-24
 ---
 # ☀️ Solar — Teaser (inksec.io)
 
@@ -18,6 +18,10 @@ date: 2025-11-12
 
 ---
 
+## Summary
+Enumeration → situational awareness → FreeBSD exploitation → out-of-band data exfiltration → source code review — tight, chain-heavy lab.
+
+---
 ## Overview (No Spoilers)
 
 **Solar** is a tight, focused Mini Pro Lab that rewards clean recon and disciplined chaining. Expect a modern web surface backed by BSD-flavored services, light but meaningful source review, and one or two pivots that hinge on *awareness* rather than wordlists. The escalations feel fair: understand the environment, test assumptions safely, and the path opens.

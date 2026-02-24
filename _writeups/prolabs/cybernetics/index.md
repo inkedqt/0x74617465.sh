@@ -6,7 +6,7 @@ category: "prolabs"
 difficulty: "Unknown"
 permalink: /writeups/prolabs/cybernetics/
 os: "Hack The Box  Pro Lab"
-date: 2025-11-12
+date: 2026-02-24
 pwned: true
 ---
 # Cybernetics – HTB Pro Lab (Teaser)
@@ -17,6 +17,10 @@ pwned: true
 
 ---
 
+## Summary
+Web foothold → Kerberoast/AS-REP → constrained delegation → lateral movement → DA.
+
+---
 ## 🧭 Overview
 Cybernetics rewards disciplined web recon feeding into **Kerberos** misconfigs and smart delegation use. Once you stabilize creds, the escalation is surgical.
 

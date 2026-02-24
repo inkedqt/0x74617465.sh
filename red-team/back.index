@@ -1030,10 +1030,10 @@ function renderBoxGrid(data, gridId) {
 function renderProlabs() {
   document.getElementById('prolabs-grid').innerHTML = PROLABS.map(p => `
     <div class="prolab-card">
-      <div class="prolab-tier">${p.tier || 'Pro Lab'}</div>
+      <div class="prolab-tier">${p.tier}</div>
       <div class="prolab-name">${p.name}</div>
-      <div class="prolab-status">${p.status || '✅'}</div>
-      <div class="prolab-blurb">${p.blurb || p.summary || ''}</div>
+      <div class="prolab-status">${p.status}</div>
+      <div class="prolab-blurb">${p.blurb}</div>
       <a class="prolab-link" href="${p.url}" target="_blank">view writeup →</a>
     </div>
   `).join('');

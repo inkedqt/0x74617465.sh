@@ -6,7 +6,7 @@ category: "prolabs"
 difficulty: "Unknown"
 permalink: /writeups/prolabs/offshore/
 os: "Hack The Box  Pro Lab"
-date: 2025-11-12
+date: 2026-02-24
 pwned: true
 ---
 # Offshore – HTB Pro Lab (Teaser)
@@ -17,6 +17,10 @@ pwned: true
 
 ---
 
+## Summary
+Perimeter recon → chained web footholds → pivots across segmented networks → AD enumeration/abuse → domain takeover.
+
+---
 ## 🧭 Overview
 Offshore is a big, realistic network that starts at the external perimeter and steadily pushes you through several pivots into an internal AD estate. Expect multiple web entry points, credential harvesting, careful routing, and a tidy escalation chain once you graph the relationships.
 

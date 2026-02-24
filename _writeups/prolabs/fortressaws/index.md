@@ -6,7 +6,7 @@ category: "prolabs"
 difficulty: "Unknown"
 permalink: /writeups/prolabs/fortressaws/
 os: "Hack The Box  Pro Lab"
-date: 2025-11-12
+date: 2026-02-24
 pwned: true
 ---
 # Fortress AWS – HTB Pro Lab (Teaser)
@@ -17,6 +17,10 @@ pwned: true
 
 ---
 
+## Summary
+IAM misconfigs → privilege escalation → S3/SSM pivoting → data exfil → persistence.
+
+---
 ## 🧭 Overview
 Fortress AWS is a tight cloud-first lab—**IAM** gotchas, **priv-esc** via policies/roles, and real-world **SSM/S3** workflows that mirror production.
 

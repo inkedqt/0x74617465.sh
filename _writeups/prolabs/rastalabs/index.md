@@ -6,7 +6,7 @@ category: "prolabs"
 difficulty: "Unknown"
 permalink: /writeups/prolabs/rastalabs/
 os: "Hack The Box  Pro Lab"
-date: 2025-11-12
+date: 2026-02-24
 pwned: true
 ---
 # RastaLabs – HTB Pro Lab (Teaser)
@@ -17,6 +17,10 @@ pwned: true
 
 ---
 
+## Summary
+Classic AD: password spray → AS-REP/Kerberoast → BloodHound path → DCSync.
+
+---
 ## 🧭 Overview
 RastaLabs is the AD comfort food—**password spray**, **AS-REP/Kerberoast**, and textbook **BloodHound** edges that land reliably.
 
