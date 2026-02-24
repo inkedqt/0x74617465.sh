@@ -4,6 +4,7 @@ name: "PivotSmarter"
 platform: "HackSmarter"
 category: "hacksmarter"
 difficulty: "Unknown"
+permalink: /writeups/hacksmarter/pivotsmarter/
 date: 2025-11-12
 pwned: true
 ---

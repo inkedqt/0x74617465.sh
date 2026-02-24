@@ -4,6 +4,7 @@ name: "Gavel"
 platform: "HackTheBox"
 category: "seasonal"
 difficulty: "Medium"
+permalink: /writeups/seasonal/gavel/
 os: "Linux"
 tags: [Web, Source Disclosure, PHP, Privilege Escalation]
 date: 2025-12-23

@@ -3,7 +3,8 @@ layout: writeup
 name: "APTLabs"
 platform: "HackTheBox"
 category: "prolabs"
-difficulty: "Hard"
+difficulty: "Unknown"
+permalink: /writeups/prolabs/aptlabs/
 os: "Hack The Box  Pro Lab"
 date: 2025-11-12
 pwned: true

@@ -4,6 +4,7 @@ name: "Mirage"
 platform: "HackTheBox"
 category: "seasonal"
 difficulty: "Hard"
+permalink: /writeups/seasonal/mirage/
 tags: [Active Directory, Windows, Kerberos, Certificates]
 date: 2025-11-12
 pwned: true

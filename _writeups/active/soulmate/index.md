@@ -4,6 +4,7 @@ name: "Soulmate"
 platform: "HackTheBox"
 category: "active"
 difficulty: "Easy"
+permalink: /writeups/active/soulmate/
 os: "Hack The BoxhttpsapphacktheboxcommachinesSoulmate"
 date: 2025-11-12
 pwned: true

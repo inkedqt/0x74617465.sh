@@ -4,6 +4,7 @@ name: "Rustykey"
 platform: "HackTheBox"
 category: "seasonal"
 difficulty: "Hard"
+permalink: /writeups/seasonal/rustykey/
 tags: [Active Directory, Windows, Kerberos, RBCD]
 date: 2025-11-12
 pwned: true

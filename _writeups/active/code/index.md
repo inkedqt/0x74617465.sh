@@ -3,7 +3,8 @@ layout: writeup
 name: "Code"
 platform: "HackTheBox"
 category: "active"
-difficulty: "Easy"
+difficulty: "Unknown"
+permalink: /writeups/active/code/
 date: 2025-11-12
 pwned: true
 ---

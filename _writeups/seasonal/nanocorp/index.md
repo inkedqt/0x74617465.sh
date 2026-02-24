@@ -4,6 +4,7 @@ name: "Nanocorp"
 platform: "HackTheBox"
 category: "seasonal"
 difficulty: "Hard"
+permalink: /writeups/seasonal/nanocorp/
 os: "Windows"
 tags: [Active Directory, Web, Authentication, Privilege Escalation]
 date: 2025-12-23

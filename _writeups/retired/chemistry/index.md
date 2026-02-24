@@ -3,7 +3,8 @@ layout: writeup
 name: "chemistry"
 platform: "HackTheBox"
 category: "retired"
-difficulty: "Easy"
+difficulty: "Unknown"
+permalink: /writeups/retired/chemistry/
 date: 2025-11-12
 pwned: true
 ---

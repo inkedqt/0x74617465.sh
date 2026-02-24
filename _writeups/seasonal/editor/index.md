@@ -4,6 +4,7 @@ name: "Editor"
 platform: "HackTheBox"
 category: "seasonal"
 difficulty: "Medium"
+permalink: /writeups/seasonal/editor/
 tags: [Linux, Web, Reverse Engineering]
 date: 2025-11-12
 pwned: true

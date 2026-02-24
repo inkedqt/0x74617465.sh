@@ -4,6 +4,7 @@ name: "Monitorsfour"
 platform: "HackTheBox"
 category: "seasonal"
 difficulty: "Easy"
+permalink: /writeups/seasonal/monitorsfour/
 os: "Windows"
 tags: [Web, Containers, Configuration Exposure, Privilege Escalation]
 date: 2025-12-23

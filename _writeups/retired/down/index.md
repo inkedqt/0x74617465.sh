@@ -4,6 +4,7 @@ name: "Down"
 platform: "HackTheBox"
 category: "retired"
 difficulty: "Easy"
+permalink: /writeups/retired/down/
 os: "Hack The Box"
 date: 2025-11-12
 pwned: true

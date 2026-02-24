@@ -3,7 +3,8 @@ layout: writeup
 name: "Puppy"
 platform: "HackTheBox"
 category: "seasonal"
-difficulty: "Medium"
+difficulty: "Unknown"
+permalink: /writeups/seasonal/puppy/
 date: 2025-11-12
 pwned: true
 ---

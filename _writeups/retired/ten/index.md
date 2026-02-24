@@ -4,6 +4,7 @@ name: "Ten"
 platform: "HackTheBox"
 category: "retired"
 difficulty: "Hard"
+permalink: /writeups/retired/ten/
 os: "Hack The Box"
 date: 2025-11-12
 pwned: true

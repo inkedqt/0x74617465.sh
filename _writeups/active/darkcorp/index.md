@@ -4,6 +4,7 @@ name: "DarkCorp"
 platform: "HackTheBox"
 category: "active"
 difficulty: "Insane"
+permalink: /writeups/active/darkcorp/
 os: "Hack The Box"
 date: 2025-11-12
 ---

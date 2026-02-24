@@ -4,6 +4,7 @@ name: "Tier2"
 platform: "HackTheBox"
 category: "starting"
 difficulty: "Unknown"
+permalink: /writeups/starting/tier2/
 date: 2025-11-12
 pwned: true
 ---

@@ -4,6 +4,7 @@ name: "Sauna"
 platform: "HackTheBox"
 category: "retired"
 difficulty: "Easy"
+permalink: /writeups/retired/sauna/
 os: "Hack The Box"
 tags: [Windows / Active Directory]
 date: 2025-11-12

@@ -4,6 +4,7 @@ name: "Retro"
 platform: "HackTheBox"
 category: "retired"
 difficulty: "Medium"
+permalink: /writeups/retired/retro/
 date: 2025-11-12
 pwned: true
 ---

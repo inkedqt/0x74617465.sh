@@ -4,6 +4,7 @@ name: "Solar"
 platform: "HackTheBox"
 category: "prolabs"
 difficulty: "Intermediate"
+permalink: /writeups/prolabs/solar/
 os: "Hack The Box  Pro Labs"
 date: 2025-11-12
 ---

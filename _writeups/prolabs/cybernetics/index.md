@@ -3,7 +3,8 @@ layout: writeup
 name: "Cybernetics"
 platform: "HackTheBox"
 category: "prolabs"
-difficulty: "Hard"
+difficulty: "Unknown"
+permalink: /writeups/prolabs/cybernetics/
 os: "Hack The Box  Pro Lab"
 date: 2025-11-12
 pwned: true

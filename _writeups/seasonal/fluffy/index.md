@@ -3,7 +3,8 @@ layout: writeup
 name: "Fluffy"
 platform: "HackTheBox"
 category: "seasonal"
-difficulty: "Hard"
+difficulty: "Unknown"
+permalink: /writeups/seasonal/fluffy/
 date: 2025-11-12
 pwned: true
 ---

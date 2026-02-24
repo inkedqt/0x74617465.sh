@@ -4,6 +4,7 @@ name: "Previous"
 platform: "HackTheBox"
 category: "active"
 difficulty: "Medium"
+permalink: /writeups/active/previous/
 os: "Hack The Box"
 date: 2025-11-12
 ---

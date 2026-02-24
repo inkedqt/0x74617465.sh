@@ -4,6 +4,7 @@ name: "Beep"
 platform: "HackTheBox"
 category: "retired"
 difficulty: "Easy"
+permalink: /writeups/retired/beep/
 os: "Hack The Box"
 date: 2025-11-12
 pwned: true

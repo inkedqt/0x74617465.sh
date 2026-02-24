@@ -3,7 +3,8 @@ layout: writeup
 name: "RastaLabs"
 platform: "HackTheBox"
 category: "prolabs"
-difficulty: "Easy"
+difficulty: "Unknown"
+permalink: /writeups/prolabs/rastalabs/
 os: "Hack The Box  Pro Lab"
 date: 2025-11-12
 pwned: true

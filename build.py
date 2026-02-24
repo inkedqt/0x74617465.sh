@@ -158,6 +158,7 @@ def build_front_matter(name, meta, category, platform, summary, pwned, date_str,
     fm += f'platform: "{platform}"\n'
     fm += f'category: "{category}"\n'
     fm += f'difficulty: "{diff}"\n'
+    fm += f'permalink: /writeups/{category}/{slugify(name)}/\n'
     if os_val:
         fm += f'os: "{os_val}"\n'
     if tags:

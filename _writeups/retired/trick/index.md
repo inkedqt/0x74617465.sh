@@ -4,6 +4,7 @@ name: "Trick"
 platform: "HackTheBox"
 category: "retired"
 difficulty: "Easy"
+permalink: /writeups/retired/trick/
 os: "Hack The BoxIP Address 101011166Difficulty Easy"
 date: 2025-11-12
 pwned: true

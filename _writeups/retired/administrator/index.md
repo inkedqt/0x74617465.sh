@@ -4,6 +4,7 @@ name: "Administrator"
 platform: "HackTheBox"
 category: "retired"
 difficulty: "Medium"
+permalink: /writeups/retired/administrator/
 os: "Hack The Box"
 tags: [Active Directory, Privilege Escalation, Password Cracking]
 date: 2025-11-12

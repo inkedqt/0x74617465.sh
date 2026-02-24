@@ -4,6 +4,7 @@ name: "VulnNet-Roasted"
 platform: "TryHackMe"
 category: "thm"
 difficulty: "Easy"
+permalink: /writeups/thm/vulnnet-roasted/
 os: "TryHackMe"
 date: 2025-11-12
 pwned: true

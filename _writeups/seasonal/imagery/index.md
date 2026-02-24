@@ -3,7 +3,8 @@ layout: writeup
 name: "Imagery"
 platform: "HackTheBox"
 category: "seasonal"
-difficulty: "Medium"
+difficulty: "Unknown"
+permalink: /writeups/seasonal/imagery/
 date: 2025-11-12
 pwned: true
 ---

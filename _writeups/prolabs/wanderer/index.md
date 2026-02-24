@@ -3,7 +3,8 @@ layout: writeup
 name: "Wanderer"
 platform: "HackTheBox"
 category: "prolabs"
-difficulty: "Easy"
+difficulty: "Unknown"
+permalink: /writeups/prolabs/wanderer/
 os: "Hack The Box  Pro Lab"
 date: 2025-11-12
 pwned: true

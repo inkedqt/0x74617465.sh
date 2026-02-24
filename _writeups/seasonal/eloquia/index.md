@@ -4,6 +4,7 @@ name: "Eloquia"
 platform: "HackTheBox"
 category: "seasonal"
 difficulty: "Insane"
+permalink: /writeups/seasonal/eloquia/
 os: "Windows"
 tags: [Web, Containers, Identity, Privilege Escalation]
 date: 2025-12-23

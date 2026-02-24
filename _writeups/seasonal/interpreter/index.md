@@ -3,7 +3,8 @@ layout: writeup
 name: "Interpreter"
 platform: "HackTheBox"
 category: "seasonal"
-difficulty: "Medium"
+difficulty: "Unknown"
+permalink: /writeups/seasonal/interpreter/
 date: 2026-02-22
 pwned: true
 ---

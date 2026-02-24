@@ -4,6 +4,7 @@ name: "Era"
 platform: "HackTheBox"
 category: "seasonal"
 difficulty: "Medium"
+permalink: /writeups/seasonal/era/
 tags: [Linux, Web Exploitation, Binary Analysis]
 date: 2025-11-12
 pwned: true

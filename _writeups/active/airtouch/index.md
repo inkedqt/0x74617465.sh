@@ -4,6 +4,7 @@ name: "AirTouch"
 platform: "HackTheBox"
 category: "active"
 difficulty: "Medium"
+permalink: /writeups/active/airtouch/
 os: "Linux"
 tags: [Network Security, Wireless Exploitation, Multi-VLAN Pivoting, Authentication Bypass]
 date: 2026-02-08

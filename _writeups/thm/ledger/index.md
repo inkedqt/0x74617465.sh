@@ -4,6 +4,7 @@ name: "Ledger"
 platform: "TryHackMe"
 category: "thm"
 difficulty: "Hard"
+permalink: /writeups/thm/ledger/
 os: "TryHackMe"
 date: 2025-11-12
 pwned: true

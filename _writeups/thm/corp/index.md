@@ -4,6 +4,7 @@ name: "Corp"
 platform: "TryHackMe"
 category: "thm"
 difficulty: "Easy"
+permalink: /writeups/thm/corp/
 os: "TryHackMe"
 date: 2025-11-12
 pwned: true

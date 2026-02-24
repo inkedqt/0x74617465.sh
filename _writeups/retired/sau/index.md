@@ -4,6 +4,7 @@ name: "Sau"
 platform: "HackTheBox"
 category: "retired"
 difficulty: "Easy"
+permalink: /writeups/retired/sau/
 os: "Linux"
 date: 2025-11-12
 pwned: true

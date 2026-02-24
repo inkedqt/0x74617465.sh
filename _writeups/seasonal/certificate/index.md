@@ -3,7 +3,8 @@ layout: writeup
 name: "Certificate"
 platform: "HackTheBox"
 category: "seasonal"
-difficulty: "Medium"
+difficulty: "Unknown"
+permalink: /writeups/seasonal/certificate/
 date: 2025-11-12
 pwned: true
 ---

@@ -4,6 +4,7 @@ name: "Services"
 platform: "TryHackMe"
 category: "thm"
 difficulty: "Medium"
+permalink: /writeups/thm/services/
 os: "TryHackMe"
 date: 2025-11-12
 pwned: true

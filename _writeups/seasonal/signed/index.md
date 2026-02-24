@@ -4,6 +4,7 @@ name: "Signed"
 platform: "HackTheBox"
 category: "seasonal"
 difficulty: "Medium"
+permalink: /writeups/seasonal/signed/
 date: 2025-11-12
 pwned: true
 ---

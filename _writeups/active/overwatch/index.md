@@ -4,6 +4,7 @@ name: "Overwatch"
 platform: "HackTheBox"
 category: "active"
 difficulty: "Medium"
+permalink: /writeups/active/overwatch/
 os: "Windows"
 tags: [Active Directory, MSSQL, DNS Poisoning, WCF Exploitation]
 date: 2026-02-08

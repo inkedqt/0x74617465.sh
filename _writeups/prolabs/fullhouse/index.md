@@ -3,7 +3,8 @@ layout: writeup
 name: "FullHouse"
 platform: "HackTheBox"
 category: "prolabs"
-difficulty: "Easy"
+difficulty: "Unknown"
+permalink: /writeups/prolabs/fullhouse/
 os: "Hack The Box  Mini Pro Lab"
 date: 2025-11-12
 pwned: true

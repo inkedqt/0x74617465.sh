@@ -4,6 +4,7 @@ name: "Browsed"
 platform: "HackTheBox"
 category: "active"
 difficulty: "Medium"
+permalink: /writeups/active/browsed/
 os: "Linux"
 tags: [Web, Client-Side Attacks, Code Review, Privilege Escalation]
 date: 2026-02-08

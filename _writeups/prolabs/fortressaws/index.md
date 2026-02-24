@@ -4,6 +4,7 @@ name: "FortressAWS"
 platform: "HackTheBox"
 category: "prolabs"
 difficulty: "Unknown"
+permalink: /writeups/prolabs/fortressaws/
 os: "Hack The Box  Pro Lab"
 date: 2025-11-12
 pwned: true

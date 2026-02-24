@@ -4,6 +4,7 @@ name: "Unicode"
 platform: "HackTheBox"
 category: "retired"
 difficulty: "Medium"
+permalink: /writeups/retired/unicode/
 os: "Hack The Box"
 date: 2025-11-12
 pwned: true

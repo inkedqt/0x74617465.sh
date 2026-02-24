@@ -4,6 +4,7 @@ name: "Conversor"
 platform: "HackTheBox"
 category: "seasonal"
 difficulty: "Easy"
+permalink: /writeups/seasonal/conversor/
 date: 2025-11-12
 pwned: true
 ---

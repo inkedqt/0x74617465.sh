@@ -3,7 +3,8 @@ layout: writeup
 name: "Titanic"
 platform: "HackTheBox"
 category: "retired"
-difficulty: "Easy"
+difficulty: "Unknown"
+permalink: /writeups/retired/titanic/
 os: "Hack The BoxIP Address 10101155Difficulty EasyMedium  Seasonal"
 date: 2025-11-12
 pwned: true

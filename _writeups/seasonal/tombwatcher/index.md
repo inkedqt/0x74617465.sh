@@ -3,7 +3,8 @@ layout: writeup
 name: "Tombwatcher"
 platform: "HackTheBox"
 category: "seasonal"
-difficulty: "Hard"
+difficulty: "Unknown"
+permalink: /writeups/seasonal/tombwatcher/
 date: 2025-11-12
 pwned: true
 ---

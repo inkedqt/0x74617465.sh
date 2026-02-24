@@ -4,6 +4,7 @@ name: "Cat"
 platform: "HackTheBox"
 category: "retired"
 difficulty: "Medium"
+permalink: /writeups/retired/cat/
 os: "Linux"
 tags: [Web / SQLi / XSS / PrivEsc]
 date: 2025-11-12

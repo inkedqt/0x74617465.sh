@@ -4,6 +4,7 @@ name: "Hercules"
 platform: "HackTheBox"
 category: "seasonal"
 difficulty: "Insane"
+permalink: /writeups/seasonal/hercules/
 date: 2025-11-12
 pwned: true
 ---

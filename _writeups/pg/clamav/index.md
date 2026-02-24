@@ -4,6 +4,7 @@ name: "ClamAV"
 platform: "ProvingGrounds"
 category: "pg"
 difficulty: "Easy"
+permalink: /writeups/pg/clamav/
 os: "OffSec Proving Grounds"
 date: 2025-11-12
 pwned: true

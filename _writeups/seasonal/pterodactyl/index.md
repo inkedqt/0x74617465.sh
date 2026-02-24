@@ -4,6 +4,7 @@ name: "Pterodactyl"
 platform: "HackTheBox"
 category: "seasonal"
 difficulty: "Medium"
+permalink: /writeups/seasonal/pterodactyl/
 os: "Linux  Release HTB Seasonal"
 date: 2026-02-21
 pwned: true

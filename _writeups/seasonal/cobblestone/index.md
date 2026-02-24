@@ -4,6 +4,7 @@ name: "Cobblestone"
 platform: "HackTheBox"
 category: "seasonal"
 difficulty: "Insane"
+permalink: /writeups/seasonal/cobblestone/
 tags: [Linux, Web Exploitation, XML-RPC Abuse]
 date: 2025-11-12
 pwned: true

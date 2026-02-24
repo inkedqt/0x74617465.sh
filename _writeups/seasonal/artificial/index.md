@@ -3,7 +3,8 @@ layout: writeup
 name: "Artificial"
 platform: "HackTheBox"
 category: "seasonal"
-difficulty: "Easy"
+difficulty: "Unknown"
+permalink: /writeups/seasonal/artificial/
 date: 2025-11-12
 pwned: true
 ---

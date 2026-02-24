@@ -4,6 +4,7 @@ name: "ShareThePain"
 platform: "HackSmarter"
 category: "hacksmarter"
 difficulty: "Unknown"
+permalink: /writeups/hacksmarter/sharethepain/
 date: 2025-11-12
 pwned: true
 ---

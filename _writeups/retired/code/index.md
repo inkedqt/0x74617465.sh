@@ -4,6 +4,7 @@ name: "Code"
 platform: "HackTheBox"
 category: "retired"
 difficulty: "Easy"
+permalink: /writeups/retired/code/
 os: "Hack The Box"
 date: 2025-11-12
 pwned: true

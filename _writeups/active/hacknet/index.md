@@ -3,7 +3,8 @@ layout: writeup
 name: "HackNet"
 platform: "HackTheBox"
 category: "active"
-difficulty: "Hard"
+difficulty: "Unknown"
+permalink: /writeups/active/hacknet/
 os: "Hack The Box  Machine"
 date: 2025-11-12
 pwned: true

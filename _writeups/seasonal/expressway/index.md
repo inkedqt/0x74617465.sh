@@ -3,7 +3,8 @@ layout: writeup
 name: "Expressway"
 platform: "HackTheBox"
 category: "seasonal"
-difficulty: "Easy"
+difficulty: "Unknown"
+permalink: /writeups/seasonal/expressway/
 os: "Hack The Box  Season 9 Easy  Linux"
 date: 2025-11-12
 pwned: true

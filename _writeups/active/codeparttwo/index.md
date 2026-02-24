@@ -4,6 +4,7 @@ name: "CodePartTwo"
 platform: "HackTheBox"
 category: "active"
 difficulty: "Medium"
+permalink: /writeups/active/codeparttwo/
 os: "Hack The Box"
 date: 2025-11-12
 ---

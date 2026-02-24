@@ -4,6 +4,7 @@ name: "AttacktiveDirectory"
 platform: "TryHackMe"
 category: "thm"
 difficulty: "Easy"
+permalink: /writeups/thm/attacktivedirectory/
 os: "TryHackMe"
 tags: [Active Directory / Windows]
 date: 2025-11-12

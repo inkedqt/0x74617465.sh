@@ -3,7 +3,8 @@ layout: writeup
 name: "Offshore"
 platform: "HackTheBox"
 category: "prolabs"
-difficulty: "Medium"
+difficulty: "Unknown"
+permalink: /writeups/prolabs/offshore/
 os: "Hack The Box  Pro Lab"
 date: 2025-11-12
 pwned: true

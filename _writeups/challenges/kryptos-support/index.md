@@ -4,6 +4,7 @@ name: "Kryptos_Support"
 platform: "HackTheBox"
 category: "challenges"
 difficulty: "Medium"
+permalink: /writeups/challenges/kryptos-support/
 os: "Hack The Box Challenge"
 date: 2025-11-12
 pwned: true

@@ -4,6 +4,7 @@ name: "ArchAngel"
 platform: "TryHackMe"
 category: "thm"
 difficulty: "Easy"
+permalink: /writeups/thm/archangel/
 os: "Try Hack Me"
 date: 2025-11-12
 pwned: true

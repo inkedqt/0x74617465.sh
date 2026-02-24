@@ -4,6 +4,7 @@ name: "Waldo"
 platform: "HackTheBox"
 category: "retired"
 difficulty: "Medium"
+permalink: /writeups/retired/waldo/
 os: "Hack The Box"
 date: 2025-11-12
 pwned: true
