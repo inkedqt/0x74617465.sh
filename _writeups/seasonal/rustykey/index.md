@@ -6,7 +6,7 @@ category: "seasonal"
 difficulty: "Hard"
 permalink: /writeups/seasonal/rustykey/
 tags: [Active Directory, Windows, Kerberos, RBCD]
-date: 2025-11-12
+date: 2026-02-25
 pwned: true
 ---
 # 🗝️ RustyKey (HTB Seasonal)

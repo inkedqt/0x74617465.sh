@@ -7,7 +7,7 @@ difficulty: "Medium"
 permalink: /writeups/seasonal/giveback/
 os: "Linux"
 tags: [Web, Containers, Kubernetes, Privilege Escalation]
-date: 2025-12-23
+date: 2026-02-25
 pwned: true
 ---
 🎁 Give Back – HTB Seasonal (Season 9)

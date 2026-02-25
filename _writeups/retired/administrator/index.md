@@ -7,7 +7,7 @@ difficulty: "Medium"
 permalink: /writeups/retired/administrator/
 os: "Hack The Box"
 tags: [Active Directory, Privilege Escalation, Password Cracking]
-date: 2025-11-12
+date: 2026-02-25
 pwned: true
 ---
 # CTF Writeup - Administrator (Hack The Box)

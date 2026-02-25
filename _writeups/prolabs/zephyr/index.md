@@ -6,7 +6,7 @@ category: "prolabs"
 difficulty: "Unknown"
 permalink: /writeups/prolabs/zephyr/
 os: "Hack The Box  Pro Lab"
-date: 2026-02-24
+date: 2026-02-25
 pwned: true
 ---
 Zephyr – HTB Pro Lab (Teaser)
@@ -28,10 +28,6 @@ Zephyr blends perimeter mapping with multi-network pivots and mature AD ramp-up.
 - Small tooling mistakes (schedules, backup tooling, weak service accounts) compound quickly  
 - Validate pivots with minimal noise so you can reproduce and report effectively
 
-## Summary
-Perimeter foothold → multi-segment pivots → internal tooling abuse → AD enumeration → domain takeover.
-
----
 ## 🖼️ Proofs
 <p align="center">
   <img src="https://raw.githubusercontent.com/inkedqt/ctf-writeups/main/HTB/proofs/zephyr.png" alt="Wanderer proof screen" style="max-width: 800px; border-radius: 8px;">

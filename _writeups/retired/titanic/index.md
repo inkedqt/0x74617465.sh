@@ -6,7 +6,7 @@ category: "retired"
 difficulty: "Easy"
 permalink: /writeups/retired/titanic/
 os: "Hack The BoxIP Address 10101155Difficulty EasyMedium  Seasonal"
-date: 2025-11-12
+date: 2026-02-25
 pwned: true
 ---
 CTF Writeup - Titanic (Hack The Box Seasonal)

@@ -6,7 +6,7 @@ category: "active"
 difficulty: "Insane"
 permalink: /writeups/active/whiterabbit/
 os: "Hack The Box"
-date: 2025-11-12
+date: 2026-02-25
 ---
 # 🐇 WhiteRabbit — Teaser (inksec.io)
 

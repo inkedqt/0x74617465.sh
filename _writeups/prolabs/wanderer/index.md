@@ -6,7 +6,7 @@ category: "prolabs"
 difficulty: "Unknown"
 permalink: /writeups/prolabs/wanderer/
 os: "Hack The Box  Pro Lab"
-date: 2026-02-24
+date: 2026-02-25
 pwned: true
 ---
 # Wanderer – HTB Pro Lab (Teaser)
@@ -17,10 +17,6 @@ pwned: true
 
 ---
 
-## Summary
-Web foothold → container/segmentation escape → AD pivot → privesc chain → DA.
-
----
 ## 🧭 Overview
 Wanderer mixes web/container seams with AD edges. It’s about reading boundaries, crossing them cleanly, and leaving a tidy audit trail.
 

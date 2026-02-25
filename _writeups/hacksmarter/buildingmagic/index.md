@@ -5,7 +5,7 @@ platform: "HackSmarter"
 category: "hacksmarter"
 difficulty: "Medium"
 permalink: /writeups/hacksmarter/buildingmagic/
-date: 2025-11-12
+date: 2026-02-25
 pwned: true
 ---
 inksec.io – AD Box “Building Magic” (Hack Smarter)

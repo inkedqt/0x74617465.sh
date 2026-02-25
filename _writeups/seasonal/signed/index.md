@@ -5,7 +5,7 @@ platform: "HackTheBox"
 category: "seasonal"
 difficulty: "Medium"
 permalink: /writeups/seasonal/signed/
-date: 2025-11-12
+date: 2026-02-25
 pwned: true
 ---
 # Signed — Hack The Box (Seasonal) — Teaser

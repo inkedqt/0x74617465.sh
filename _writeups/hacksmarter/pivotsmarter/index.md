@@ -5,7 +5,7 @@ platform: "HackSmarter"
 category: "hacksmarter"
 difficulty: "Easy"
 permalink: /writeups/hacksmarter/pivotsmarter/
-date: 2025-11-12
+date: 2026-02-25
 pwned: true
 ---
 # PivotSmarter — HackSmarter Lab (Full Write‑Up)

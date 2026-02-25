@@ -6,7 +6,7 @@ category: "pg"
 difficulty: "Easy"
 permalink: /writeups/pg/mice/
 os: "OffSec Proving Grounds"
-date: 2025-11-12
+date: 2026-02-25
 pwned: true
 ---
 # 🧪 Machine Name: Mice

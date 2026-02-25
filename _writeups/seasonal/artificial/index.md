@@ -5,7 +5,7 @@ platform: "HackTheBox"
 category: "seasonal"
 difficulty: "Easy"
 permalink: /writeups/seasonal/artificial/
-date: 2025-11-12
+date: 2026-02-25
 pwned: true
 ---
 ### 🧠 HTB: Artificial

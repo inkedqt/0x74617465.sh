@@ -5,7 +5,7 @@ platform: "HackTheBox"
 category: "seasonal"
 difficulty: "Insane"
 permalink: /writeups/seasonal/hercules/
-date: 2025-11-12
+date: 2026-02-25
 pwned: true
 ---
 # Hercules — HTB Seasonal (Windows) — Teaser

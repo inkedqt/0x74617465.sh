@@ -7,7 +7,7 @@ difficulty: "Easy"
 permalink: /writeups/seasonal/facts/
 os: "Linux"
 tags: [Web, IDOR, Object Storage, SSH Key Cracking, Sudo Exploitation]
-date: 2026-02-08
+date: 2026-02-25
 pwned: true
 ---
 # 📊 Facts – HTB Seasonal

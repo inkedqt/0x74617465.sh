@@ -6,7 +6,7 @@ category: "prolabs"
 difficulty: "Unknown"
 permalink: /writeups/prolabs/fullhouse/
 os: "Hack The Box  Mini Pro Lab"
-date: 2026-02-24
+date: 2026-02-25
 pwned: true
 ---
 # FullHouse – HTB Mini Pro Labs (Teaser)
@@ -17,10 +17,6 @@ pwned: true
 
 ---
 
-## Summary
-Source review → web → AD → reversing → AI/chain — fun glue lab.
-
----
 ## 🧭 Overview
 FullHouse was a fast-paced, multi-discipline lab that strings together real-world misconfigurations and code quirks across web, Windows, AD, and some curve-balls. Think: *read the source, chain the small things, and never forget the basics*.
 

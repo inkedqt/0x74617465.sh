@@ -6,7 +6,7 @@ category: "thm"
 difficulty: "Medium"
 permalink: /writeups/thm/services/
 os: "TryHackMe"
-date: 2025-11-12
+date: 2026-02-25
 pwned: true
 ---
 # 🧪 Services – TryHackMe

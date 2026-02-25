@@ -6,7 +6,7 @@ category: "seasonal"
 difficulty: "Medium"
 permalink: /writeups/seasonal/era/
 tags: [Linux, Web Exploitation, Binary Analysis]
-date: 2025-11-12
+date: 2026-02-25
 pwned: true
 ---
 

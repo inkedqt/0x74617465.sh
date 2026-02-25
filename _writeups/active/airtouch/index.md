@@ -7,7 +7,7 @@ difficulty: "Medium"
 permalink: /writeups/active/airtouch/
 os: "Linux"
 tags: [Network Security, Wireless Exploitation, Multi-VLAN Pivoting, Authentication Bypass]
-date: 2026-02-08
+date: 2026-02-25
 pwned: true
 ---
 

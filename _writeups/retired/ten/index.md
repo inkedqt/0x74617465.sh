@@ -6,7 +6,7 @@ category: "retired"
 difficulty: "Hard"
 permalink: /writeups/retired/ten/
 os: "Hack The Box"
-date: 2025-11-12
+date: 2026-02-25
 pwned: true
 ---
 # 🧪 Machine Name: Ten

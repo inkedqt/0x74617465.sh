@@ -6,7 +6,7 @@ category: "seasonal"
 difficulty: "Hard"
 permalink: /writeups/seasonal/darkzero/
 os: "Hack The Box  Machine"
-date: 2025-11-12
+date: 2026-02-25
 pwned: true
 ---
 DarkZero — HTB Hard (Teaser)

@@ -6,7 +6,7 @@ category: "pg"
 difficulty: "Easy"
 permalink: /writeups/pg/twiggy/
 os: "OffSec Proving Grounds"
-date: 2025-11-12
+date: 2026-02-25
 pwned: true
 ---
 # CTF Writeup: Twiggy (Proving Grounds)

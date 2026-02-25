@@ -7,7 +7,7 @@ difficulty: "Easy"
 permalink: /writeups/seasonal/monitorsfour/
 os: "Windows"
 tags: [Web, Containers, Configuration Exposure, Privilege Escalation]
-date: 2025-12-23
+date: 2026-02-25
 pwned: true
 ---
 📊 MonitorsFour – HTB Seasonal (Season 9)

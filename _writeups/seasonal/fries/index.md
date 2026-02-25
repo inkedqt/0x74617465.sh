@@ -6,7 +6,7 @@ category: "seasonal"
 difficulty: "Hard"
 permalink: /writeups/seasonal/fries/
 os: "Hack The Box  Seasonal Hard  Hybrid Linux  Windows  AD"
-date: 2025-12-23
+date: 2026-02-25
 pwned: true
 ---
 Fries – HTB Seasonal (Teaser)

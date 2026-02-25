@@ -6,7 +6,7 @@ category: "prolabs"
 difficulty: "Unknown"
 permalink: /writeups/prolabs/poo/
 os: "Hack The Box  Pro Lab"
-date: 2026-02-24
+date: 2026-02-25
 pwned: true
 ---
 # P.O.O – HTB Pro Lab (Teaser)
@@ -17,10 +17,6 @@ pwned: true
 
 ---
 
-## Summary
-SMB/SQL exposure → xp_cmdshell → potato to SYSTEM → AD pathing → DA.
-
----
 ## 🧭 Overview
 P.O.O leans into Windows internals: **MSSQL** execution, **token impersonation** (potato family), and no-nonsense AD escalation without over-engineering.
 

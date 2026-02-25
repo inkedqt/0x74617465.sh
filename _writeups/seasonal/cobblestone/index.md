@@ -6,7 +6,7 @@ category: "seasonal"
 difficulty: "Insane"
 permalink: /writeups/seasonal/cobblestone/
 tags: [Linux, Web Exploitation, XML-RPC Abuse]
-date: 2025-11-12
+date: 2026-02-25
 pwned: true
 ---
 # 🏰 Cobblestone (HTB)

@@ -6,7 +6,7 @@ category: "active"
 difficulty: "Hard"
 permalink: /writeups/active/guardian/
 os: "Hack The Box"
-date: 2025-11-12
+date: 2026-02-25
 ---
 # 🛡️ Guardian — Teaser (inksec.io)
 

@@ -7,7 +7,7 @@ difficulty: "Easy"
 permalink: /writeups/thm/attacktivedirectory/
 os: "TryHackMe"
 tags: [Active Directory / Windows]
-date: 2025-11-12
+date: 2026-02-25
 pwned: true
 ---
 # 🧪 TryHackMe: Attacktive Directory

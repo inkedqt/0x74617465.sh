@@ -5,7 +5,7 @@ platform: "HackTheBox"
 category: "seasonal"
 difficulty: "Easy"
 permalink: /writeups/seasonal/conversor/
-date: 2025-11-12
+date: 2026-02-25
 pwned: true
 ---
 # Conversor — HTB Seasonal — Teaser

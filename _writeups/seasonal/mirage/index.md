@@ -6,7 +6,7 @@ category: "seasonal"
 difficulty: "Hard"
 permalink: /writeups/seasonal/mirage/
 tags: [Active Directory, Windows, Kerberos, Certificates]
-date: 2025-11-12
+date: 2026-02-25
 pwned: true
 ---
 🌀 Mirage (HTB Seasonal)

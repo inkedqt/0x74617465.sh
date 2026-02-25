@@ -5,7 +5,7 @@ platform: "HackTheBox"
 category: "retired"
 difficulty: "Easy"
 permalink: /writeups/retired/chemistry/
-date: 2025-11-12
+date: 2026-02-25
 pwned: true
 ---
 # Hack The Box - Chemistry (10.10.11.38)

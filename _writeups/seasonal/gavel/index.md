@@ -7,7 +7,7 @@ difficulty: "Medium"
 permalink: /writeups/seasonal/gavel/
 os: "Linux"
 tags: [Web, Source Disclosure, PHP, Privilege Escalation]
-date: 2025-12-23
+date: 2026-02-25
 pwned: true
 ---
 🔨 Gavel – HTB Seasonal (Season 9)

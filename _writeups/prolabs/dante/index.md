@@ -6,7 +6,7 @@ category: "prolabs"
 difficulty: "Unknown"
 permalink: /writeups/prolabs/dante/
 os: "Hack The Box  Pro Lab"
-date: 2026-02-24
+date: 2026-02-25
 pwned: true
 ---
 # Dante – HTB Pro Lab (Teaser)
@@ -17,10 +17,6 @@ pwned: true
 
 ---
 
-## Summary
-Perimeter → Linux/Windows mixed estate → credential reuse → AD escalation → DA.
-
----
 ## 🧭 Overview
 Dante is a great mixed-estate journey—Linux and Windows interplay, careful loot reuse, and a tidy path into AD dominance without gimmicks.
 

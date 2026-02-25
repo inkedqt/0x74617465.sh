@@ -7,7 +7,7 @@ difficulty: "Easy"
 permalink: /writeups/retired/sauna/
 os: "Hack The Box"
 tags: [Windows / Active Directory]
-date: 2025-11-12
+date: 2026-02-25
 pwned: true
 ---
 # 🧪 Machine Name: Sauna

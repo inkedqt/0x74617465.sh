@@ -6,7 +6,7 @@ category: "active"
 difficulty: "Hard"
 permalink: /writeups/active/hacknet/
 os: "Hack The Box  Machine"
-date: 2025-11-12
+date: 2026-02-25
 pwned: true
 ---
 # HackNet – HTB Box (Teaser)

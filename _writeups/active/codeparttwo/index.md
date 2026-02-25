@@ -6,11 +6,9 @@ category: "active"
 difficulty: "Medium"
 permalink: /writeups/active/codeparttwo/
 os: "Hack The Box"
-date: 2026-02-24
+date: 2026-02-25
 ---
 # 🧩 CodeTwo — Teaser (inksec.io)
-## Summary
-Web enumeration → trust boundary analysis → credential/token handling flaws → Linux privesc via services, configs, or hooks → root
 
 **Platform:** Hack The Box  
 **OS:** Linux  

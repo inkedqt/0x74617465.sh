@@ -6,7 +6,7 @@ category: "retired"
 difficulty: "Easy"
 permalink: /writeups/retired/trick/
 os: "Hack The BoxIP Address 101011166Difficulty Easy"
-date: 2025-11-12
+date: 2026-02-25
 pwned: true
 ---
 

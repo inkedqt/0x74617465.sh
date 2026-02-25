@@ -5,7 +5,7 @@ platform: "HackTheBox"
 category: "retired"
 difficulty: "Easy"
 permalink: /writeups/retired/blue/
-date: 2025-11-12
+date: 2026-02-25
 pwned: true
 ---
 # Hack The Box - Blue (10.10.10.40)

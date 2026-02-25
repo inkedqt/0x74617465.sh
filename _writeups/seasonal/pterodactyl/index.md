@@ -6,13 +6,10 @@ category: "seasonal"
 difficulty: "Medium"
 permalink: /writeups/seasonal/pterodactyl/
 os: "Linux  Release HTB Seasonal"
-date: 2026-02-24
+date: 2026-02-25
 pwned: true
 ---
 # 🦕 Pterodactyl
-
-## Summary
-Changelog version leak → vhost fuzz → LFI via locale API endpoint → pearcmd.php RCE → DB config loot → bcrypt crack → SSH → PAM env injection spoofs local seat → udisks TOCTOU race in XFS resize → root
 
 > **Difficulty:** Medium | **OS:** Linux | **Release:** HTB Seasonal
 

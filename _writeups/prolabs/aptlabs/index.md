@@ -6,7 +6,7 @@ category: "prolabs"
 difficulty: "Unknown"
 permalink: /writeups/prolabs/aptlabs/
 os: "Hack The Box  Pro Lab"
-date: 2026-02-24
+date: 2026-02-25
 pwned: true
 ---
 # APTLabs – HTB Pro Lab (Teaser)
@@ -17,10 +17,6 @@ pwned: true
 
 ---
 
-## Summary
-External foothold → web → AD pivot → ACL abuse → DCSync → domain takeover.
-
----
 ## 🧭 Overview
 APTLabs felt like a classic enterprise perimeter-to-domain takeover. You chain small footholds into an AD pivot, then leverage graph insights for a clean finish. Crisp, methodical, and very “real world.”
 

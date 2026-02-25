@@ -6,7 +6,7 @@ category: "retired"
 difficulty: "Easy"
 permalink: /writeups/retired/sau/
 os: "Linux"
-date: 2025-11-12
+date: 2026-02-25
 pwned: true
 ---
 # Sau – Hack The Box

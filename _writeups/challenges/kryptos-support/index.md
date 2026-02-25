@@ -6,7 +6,7 @@ category: "challenges"
 difficulty: "Medium"
 permalink: /writeups/challenges/kryptos-support/
 os: "Hack The Box Challenge"
-date: 2025-11-12
+date: 2026-02-25
 pwned: true
 ---
 

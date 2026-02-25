@@ -6,13 +6,10 @@ category: "seasonal"
 difficulty: "Easy"
 permalink: /writeups/seasonal/wingdata/
 os: "Linux  Release HTB Seasonal"
-date: 2026-02-24
+date: 2026-02-25
 pwned: true
 ---
 # 🪶 WingData
-
-## Summary
-Wing FTP version disclosure → pre-auth RCE via C-string/buffer session vulnerability → salted SHA256 hash dump → Hashcat mode 1410 crack → SSH → sudo tarfile script → PATH_MAX realpath truncation bypass → hardlink write primitive → SSH key injected → root
 
 > **Difficulty:** Easy | **OS:** Linux | **Release:** HTB Seasonal
 

@@ -37,7 +37,7 @@ except ImportError:
     HAS_YAML = False
 
 # ── CONFIG ────────────────────────────────────────────────────────────────────
-DEFAULT_CTF      = Path("/home/tate/INKSEC.IO/ctf-writeups")
+DEFAULT_CTF      = Path("/home/tate/Documents/Obsidian_vault/Hack Academy's Blue Team Obsidian Notes/CTF")
 DEFAULT_OUT      = Path("/home/tate/0x74617465.sh")
 DEFAULT_YAML_DIR = Path("/home/tate/INKSEC.IO/inkedqt.github.io/_data")
 

@@ -5,7 +5,7 @@ platform: "HackTheBox"
 category: "starting"
 difficulty: "Unknown"
 permalink: /writeups/starting/tier1/
-date: 2025-11-12
+date: 2026-02-25
 pwned: true
 ---
 # HTB Starting Point - Tier 1 Summary

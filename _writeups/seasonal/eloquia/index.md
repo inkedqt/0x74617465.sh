@@ -7,7 +7,7 @@ difficulty: "Insane"
 permalink: /writeups/seasonal/eloquia/
 os: "Windows"
 tags: [Web, Containers, Identity, Privilege Escalation]
-date: 2025-12-23
+date: 2026-02-25
 pwned: true
 ---
 🧩 Eloquia – HTB Seasonal (Season 9)

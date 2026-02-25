@@ -7,7 +7,7 @@ difficulty: "Hard"
 permalink: /writeups/seasonal/nanocorp/
 os: "Windows"
 tags: [Active Directory, Web, Authentication, Privilege Escalation]
-date: 2025-12-23
+date: 2026-02-25
 pwned: true
 ---
 🏢 NanoCorp – HTB Seasonal (Season 9)

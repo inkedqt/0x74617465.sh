@@ -7,7 +7,7 @@ difficulty: "Easy"
 permalink: /writeups/seasonal/eighteen/
 os: "Windows"
 tags: [Web, Databases, Authentication, Active Directory]
-date: 2025-12-23
+date: 2026-02-25
 pwned: true
 ---
 🔢 Eighteen – HTB Seasonal (Season 9)

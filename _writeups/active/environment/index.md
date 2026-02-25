@@ -5,7 +5,7 @@ platform: "HackTheBox"
 category: "active"
 difficulty: "Medium"
 permalink: /writeups/active/environment/
-date: 2025-11-12
+date: 2026-02-25
 pwned: true
 ---
 🌱 HTB: Environment
