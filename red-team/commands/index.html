@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>0x74617465.sh // command reference</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Syne+Mono&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black:      #050508;
+  --deep:       #08080f;
+  --panel:      #0c0c18;
+  --pink:       #ff66c4;
+  --pink-dim:   rgba(255,102,196,0.4);
+  --pink-faint: rgba(255,102,196,0.08);
+  --cyan:       #00f5d4;
+  --cyan-dim:   rgba(0,245,212,0.4);
+  --cyan-faint: rgba(0,245,212,0.07);
+  --gold:       #ffd166;
+  --gold-dim:   rgba(255,209,102,0.4);
+  --gold-faint: rgba(255,209,102,0.07);
+  --red:        #ff4d6d;
+  --red-dim:    rgba(255,77,109,0.4);
+  --red-faint:  rgba(255,77,109,0.07);
+  --muted:      #2a2a45;
+  --subtle:     #4a4a6a;
+  --text:       #c8c8e8;
+  --text-dim:   #7a7a9a;
+  --green:      #00ff88;
+}
+
+html { scroll-behavior: smooth; zoom: 1.2; }
+
+body {
+  background: var(--black);
+  color: var(--text);
+  font-family: 'Share Tech Mono', monospace;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background: linear-gradient(#1a1a2e 1px, transparent 1px), linear-gradient(90deg, #1a1a2e 1px, transparent 1px);
+  background-size: 36px 36px;
+  opacity: 0.1; pointer-events: none; z-index: 0;
+}
+
+.scanline {
+  position: fixed; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--cyan-dim), transparent);
+  animation: scan 6s linear infinite;
+  opacity: 0.3; z-index: 999; pointer-events: none;
+}
+@keyframes scan { 0%{top:-1px} 100%{top:100%} }
+
+/* ── NAV ── */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(5,5,8,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--muted);
+  padding: 0 clamp(16px,4vw,60px);
+  display: flex; align-items: center;
+  justify-content: space-between; height: 52px;
+  box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+}
+.nav-brand {
+  font-family: 'Syne Mono', monospace;
+  font-size: 15px; letter-spacing: 0.02em;
+  color: var(--text); text-decoration: none;
+  display: flex; align-items: center; gap: 6px;
+}
+.nav-brand .px { color: var(--pink); }
+.nav-brand .cx { color: var(--cyan); }
+.nav-links { display: flex; gap: clamp(12px,2.5vw,28px); list-style: none; }
+.nav-links a {
+  font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--subtle); text-decoration: none; transition: color 0.2s;
+  padding: 2px 0; border-bottom: 1px solid transparent;
+}
+.nav-links a:hover { color: var(--cyan); border-color: var(--cyan-dim); }
+.nav-links a.active { color: var(--pink); border-color: var(--pink-dim); }
+.nav-back { font-size: 10px; letter-spacing: 0.18em; color: var(--subtle); text-decoration: none; transition: color 0.2s; }
+.nav-back:hover { color: var(--pink); }
+
+/* ── WRAP ── */
+.wrap {
+  position: relative; z-index: 1;
+  max-width: 1200px; margin: 0 auto;
+  padding: 0 clamp(16px,4vw,60px);
+}
+
+/* ── HERO ── */
+.hero {
+  padding: 70px 0 52px;
+  border-bottom: 1px solid var(--muted);
+}
+.hero-eyebrow {
+  font-size: 10px; letter-spacing: 0.35em; text-transform: uppercase;
+  color: var(--subtle); margin-bottom: 18px;
+  display: flex; align-items: center; gap: 10px;
+}
+.hero-eyebrow::after {
+  content: ''; flex: 1; height: 1px;
+  background: var(--muted); max-width: 120px; opacity: 0.4;
+}
+.hero-title {
+  font-family: 'Syne Mono', monospace;
+  font-size: clamp(28px,5vw,52px);
+  line-height: 1.05; margin-bottom: 18px; letter-spacing: -0.01em;
+}
+.hero-title .pk { color: var(--pink); text-shadow: 0 0 40px var(--pink-dim); }
+.hero-title .cx { color: var(--cyan); text-shadow: 0 0 40px var(--cyan-dim); }
+.hero-sub {
+  font-family: 'DM Mono', monospace; font-weight: 300;
+  font-size: clamp(11px,1.5vw,14px); color: var(--text-dim);
+  line-height: 1.8; max-width: 620px; margin-bottom: 40px;
+  letter-spacing: 0.04em;
+}
+.hero-sub em { font-style: normal; color: var(--text); }
+
+/* stats grid */
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1px; background: var(--muted);
+  border: 1px solid var(--muted); max-width: 600px;
+}
+.hstat { background: var(--deep); padding: 16px 20px; text-align: center; }
+.hstat-val {
+  font-family: 'Syne Mono', monospace;
+  font-size: clamp(18px,2.5vw,24px); margin-bottom: 4px;
+}
+.hstat-val.pk { color: var(--pink); text-shadow: 0 0 20px var(--pink-dim); }
+.hstat-val.cx { color: var(--cyan); text-shadow: 0 0 20px var(--cyan-dim); }
+.hstat-val.go { color: var(--gold); text-shadow: 0 0 20px var(--gold-dim); }
+.hstat-label { font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--subtle); }
+
+/* ── COMMAND SECTION ── */
+.cmd-section { padding: 48px 0; }
+
+.sec-header { display: flex; align-items: baseline; gap: 16px; margin-bottom: 28px; }
+.sec-title {
+  font-family: 'Syne Mono', monospace;
+  font-size: clamp(15px,2vw,20px); color: var(--text); letter-spacing: 0.02em;
+}
+.sec-title .pk { color: var(--pink); }
+.sec-title .cx { color: var(--cyan); }
+
+/* ── FILTER BAR ── */
+.filter-bar {
+  display: flex; gap: 8px; margin-bottom: 20px;
+  flex-wrap: wrap; align-items: center;
+}
+.filter-search {
+  background: var(--panel); border: 1px solid var(--muted);
+  color: var(--text); font-family: 'Share Tech Mono', monospace;
+  font-size: 12px; padding: 8px 12px 8px 32px;
+  outline: none; flex: 1; min-width: 180px;
+  transition: border-color 0.2s; letter-spacing: 0.06em;
+  position: relative;
+}
+.search-wrap { position: relative; flex: 1; min-width: 180px; }
+.search-wrap::before {
+  content: '❯'; position: absolute; left: 12px; top: 50%;
+  transform: translateY(-50%); color: var(--pink);
+  font-size: 10px; pointer-events: none;
+}
+.filter-search:focus { border-color: var(--pink-dim); }
+.filter-search::placeholder { color: var(--subtle); }
+
+.filter-btn {
+  background: var(--panel); border: 1px solid var(--muted);
+  color: var(--subtle); font-family: 'Share Tech Mono', monospace;
+  font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
+  padding: 8px 12px; cursor: pointer; transition: all 0.2s;
+}
+.filter-btn:hover { border-color: var(--pink-dim); color: var(--pink); background: var(--pink-faint); }
+.filter-btn.active { border-color: var(--pink-dim); color: var(--pink); background: var(--pink-faint); }
+.filter-btn[data-tool="nmap"].active        { color: var(--cyan); border-color: var(--cyan-dim); background: var(--cyan-faint); }
+.filter-btn[data-tool="impacket"].active    { color: var(--gold); border-color: var(--gold-dim); background: var(--gold-faint); }
+.filter-btn[data-tool="evil-winrm"].active  { color: var(--pink); border-color: var(--pink-dim); background: var(--pink-faint); }
+.filter-btn[data-tool="shell"].active       { color: var(--subtle); border-color: var(--muted); background: rgba(74,74,106,0.15); }
+
+/* results bar */
+.results-bar {
+  font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--subtle); margin-bottom: 14px;
+}
+.results-bar .count { color: var(--pink); }
+
+/* ── COMMAND CARDS ── */
+.cmd-grid { display: flex; flex-direction: column; gap: 2px; }
+
+.cmd-card {
+  background: var(--panel);
+  border: 1px solid var(--muted);
+  border-left: 2px solid transparent;
+  padding: 14px 18px;
+  transition: all 0.15s;
+}
+.cmd-card:hover { border-left-color: var(--pink); background: var(--pink-faint); }
+
+/* tool-specific left border colours on hover */
+.cmd-card[data-tool="nmap"]:hover        { border-left-color: var(--cyan); background: var(--cyan-faint); }
+.cmd-card[data-tool="impacket"]:hover    { border-left-color: var(--gold); background: var(--gold-faint); }
+.cmd-card[data-tool="bloodhound"]:hover  { border-left-color: #ff4d6d; background: var(--red-faint); }
+.cmd-card[data-tool="certipy"]:hover     { border-left-color: #ff4d6d; background: var(--red-faint); }
+.cmd-card[data-tool="shell"]:hover       { border-left-color: var(--subtle); background: rgba(74,74,106,0.1); }
+.cmd-card[data-tool="gobuster"]:hover    { border-left-color: var(--green); background: rgba(0,255,136,0.05); }
+.cmd-card[data-tool="ffuf"]:hover        { border-left-color: var(--green); background: rgba(0,255,136,0.05); }
+
+.cmd-top {
+  display: flex; align-items: flex-start;
+  justify-content: space-between; gap: 12px; margin-bottom: 8px;
+}
+.cmd-code {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 12px; color: var(--cyan);
+  line-height: 1.5; flex: 1; word-break: break-all;
+}
+.cmd-copy {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 8px; letter-spacing: 0.15em; text-transform: uppercase;
+  padding: 3px 8px; border: 1px solid var(--muted);
+  background: transparent; color: var(--subtle);
+  cursor: pointer; transition: all 0.2s;
+  flex-shrink: 0; align-self: flex-start; margin-top: 2px;
+}
+.cmd-copy:hover { color: var(--cyan); border-color: var(--cyan-dim); }
+.cmd-copy.copied { color: var(--green); border-color: rgba(0,255,136,0.4); }
+
+.cmd-desc {
+  font-family: 'DM Mono', monospace; font-weight: 300;
+  font-size: 11px; color: var(--text-dim);
+  line-height: 1.6; letter-spacing: 0.02em; margin-bottom: 8px;
+}
+
+.cmd-meta { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+
+.cmd-tool {
+  font-size: 7px; letter-spacing: 0.2em; text-transform: uppercase;
+  padding: 2px 7px; border: 1px solid;
+}
+.cmd-tool.nmap        { color: var(--cyan); border-color: var(--cyan-dim); background: var(--cyan-faint); }
+.cmd-tool.impacket    { color: var(--gold); border-color: var(--gold-dim); background: var(--gold-faint); }
+.cmd-tool.evil-winrm  { color: var(--pink); border-color: var(--pink-dim); background: var(--pink-faint); }
+.cmd-tool.netexec     { color: var(--pink); border-color: var(--pink-dim); background: var(--pink-faint); }
+.cmd-tool.bloodhound  { color: #ff4d6d; border-color: var(--red-dim); background: var(--red-faint); }
+.cmd-tool.certipy     { color: #ff4d6d; border-color: var(--red-dim); background: var(--red-faint); }
+.cmd-tool.bloodyad    { color: #ff4d6d; border-color: var(--red-dim); background: var(--red-faint); }
+.cmd-tool.kerbrute    { color: var(--gold); border-color: var(--gold-dim); background: var(--gold-faint); }
+.cmd-tool.hashcat     { color: var(--gold); border-color: var(--gold-dim); background: var(--gold-faint); }
+.cmd-tool.john        { color: var(--gold); border-color: var(--gold-dim); background: var(--gold-faint); }
+.cmd-tool.gobuster    { color: var(--green); border-color: rgba(0,255,136,0.4); background: rgba(0,255,136,0.05); }
+.cmd-tool.ffuf        { color: var(--green); border-color: rgba(0,255,136,0.4); background: rgba(0,255,136,0.05); }
+.cmd-tool.sqlmap      { color: var(--green); border-color: rgba(0,255,136,0.4); background: rgba(0,255,136,0.05); }
+.cmd-tool.shell       { color: var(--subtle); border-color: var(--muted); }
+.cmd-tool.ssh         { color: var(--subtle); border-color: var(--muted); }
+.cmd-tool.curl        { color: var(--subtle); border-color: var(--muted); }
+.cmd-tool.python      { color: var(--subtle); border-color: var(--muted); }
+.cmd-tool.dig         { color: var(--subtle); border-color: var(--muted); }
+.cmd-tool.smbclient   { color: var(--cyan); border-color: var(--cyan-dim); background: var(--cyan-faint); }
+.cmd-tool.xfreerdp    { color: var(--subtle); border-color: var(--muted); }
+.cmd-tool.ldapdomaindump { color: var(--cyan); border-color: var(--cyan-dim); background: var(--cyan-faint); }
+.cmd-tool.windapsearch   { color: var(--cyan); border-color: var(--cyan-dim); background: var(--cyan-faint); }
+
+.cmd-lab {
+  font-size: 7px; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--subtle); text-decoration: none; padding: 2px 7px;
+  border: 1px solid transparent; transition: all 0.2s;
+}
+.cmd-lab:hover { color: var(--pink); border-color: var(--pink-dim); }
+
+/* no results */
+.no-results {
+  display: none; text-align: center; padding: 60px 20px;
+  font-size: 11px; color: var(--subtle); letter-spacing: 0.1em;
+}
+.no-results .nr-sym { font-size: 28px; display: block; margin-bottom: 12px; color: var(--muted); }
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--muted);
+  padding: 32px 0; margin-top: 40px;
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 12px;
+}
+.foot-link {
+  font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase;
+  text-decoration: none; color: var(--subtle);
+  border: 1px solid var(--muted); padding: 6px 14px; transition: all 0.2s;
+}
+.foot-link:hover { color: var(--cyan); border-color: var(--cyan-dim); }
+.foot-brand { font-family: 'Syne Mono', monospace; font-size: 12px; }
+.foot-brand .px { color: var(--pink); }
+.foot-brand .cx { color: var(--cyan); }
+</style>
+</head>
+<body>
+<div class="scanline"></div>
+
+<nav>
+  <a class="nav-brand" href="/"><span class="px">0x74617465</span><span class="cx">.sh</span></a>
+  <ul class="nav-links">
+    <li><a href="/">boxes</a></li>
+    <li><a href="/writeups/">writeups</a></li>
+    <li><a href="/red-team/commands/" class="active">commands</a></li>
+    <li><a href="https://inksec.io" target="_blank">blue team</a></li>
+  </ul>
+  <a class="nav-back" href="/">← home</a>
+</nav>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-eyebrow">// red team command reference</div>
+    <h1 class="hero-title">bash <span class="pk">history</span><span class="cx">_</span></h1>
+    <p class="hero-sub">
+      Commands extracted from real <em>HTB box</em> compromises and lab investigations.
+      Searchable, filterable, copyable. Built so future me doesn't have to google the same thing twice.
+    </p>
+    <div class="hero-stats">
+      <div class="hstat">
+        <div class="hstat-val pk" id="total-count">57</div>
+        <div class="hstat-label">commands</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-val cx" id="tool-count">22</div>
+        <div class="hstat-label">tools</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-val go" id="lab-count">20</div>
+        <div class="hstat-label">boxes</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMMANDS -->
+  <div class="cmd-section">
+
+    <div class="sec-header">
+      <div class="sec-title">command <span class="pk">reference</span></div>
+    </div>
+
+    <div class="filter-bar">
+      <div class="search-wrap">
+        <input class="filter-search" type="text" id="search" placeholder="search commands, tools, techniques..." autocomplete="off" spellcheck="false">
+      </div>
+      <button class="filter-btn active" data-tool="all">all</button>
+      <button class="filter-btn" data-tool="nmap">nmap</button>
+      <button class="filter-btn" data-tool="impacket">impacket</button>
+      <button class="filter-btn" data-tool="evil-winrm">evil-winrm</button>
+      <button class="filter-btn" data-tool="netexec">netexec</button>
+      <button class="filter-btn" data-tool="bloodhound">bloodhound</button>
+      <button class="filter-btn" data-tool="shell">shell</button>
+    </div>
+
+    <div class="results-bar">showing <span class="count" id="shown-count">57</span> commands</div>
+
+    <div class="cmd-grid" id="cmd-grid"></div>
+
+    <div class="no-results" id="no-results">
+      <span class="nr-sym">_</span>
+      no commands match that search
+    </div>
+
+  </div>
+
+  <footer>
+    <a class="foot-link" href="/">← boxes</a>
+    <span class="foot-brand"><span class="px">0x74617465</span><span class="cx">.sh</span></span>
+    <a class="foot-link" href="https://inksec.io" target="_blank">blue team →</a>
+  </footer>
+
+</div>
+
+<script src="commands-data.js"></script>
+<script>
+const grid        = document.getElementById('cmd-grid');
+const searchInput = document.getElementById('search');
+const filterBtns  = document.querySelectorAll('.filter-btn');
+const shownCount  = document.getElementById('shown-count');
+const totalCount  = document.getElementById('total-count');
+const toolCount   = document.getElementById('tool-count');
+const labCount    = document.getElementById('lab-count');
+const noResults   = document.getElementById('no-results');
+
+let activeTool  = 'all';
+let searchQuery = '';
+let cards       = [];
+
+const toolClass = t => t || 'shell';
+
+function escapeHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function buildCards() {
+  grid.innerHTML = '';
+  cards = [];
+
+  COMMANDS_DATA.forEach((cmd) => {
+    const tool = cmd.tool || 'shell';
+    const desc = cmd.desc || '<span style="color:var(--subtle);font-style:italic;">no description yet</span>';
+    const labLink = cmd.lab && cmd.lab !== 'general' && cmd.lab_url
+      ? `<a class="cmd-lab" href="${cmd.lab_url}">↗ ${cmd.lab.toLowerCase()}</a>`
+      : '';
+
+    const card = document.createElement('div');
+    card.className = 'cmd-card';
+    card.dataset.tool = tool;
+    card.dataset.tags = cmd.tags || tool;
+
+    card.innerHTML = `
+      <div class="cmd-top">
+        <div class="cmd-code">${escapeHtml(cmd.command)}</div>
+        <button class="cmd-copy" onclick="copyCmd(this)">copy</button>
+      </div>
+      <div class="cmd-desc">${desc}</div>
+      <div class="cmd-meta">
+        <span class="cmd-tool ${toolClass(tool)}">${tool}</span>
+        ${labLink}
+      </div>`;
+
+    grid.appendChild(card);
+    cards.push(card);
+  });
+
+  if (typeof COMMANDS_META !== 'undefined') {
+    totalCount.textContent = COMMANDS_META.total;
+    toolCount.textContent  = COMMANDS_META.tools.length;
+    labCount.textContent   = COMMANDS_META.labs;
+  }
+
+  updateDisplay();
+}
+
+function updateDisplay() {
+  let visible = 0;
+  cards.forEach(card => {
+    const tool  = card.dataset.tool;
+    const tags  = card.dataset.tags || '';
+    const code  = card.querySelector('.cmd-code').textContent.toLowerCase();
+    const desc  = card.querySelector('.cmd-desc').textContent.toLowerCase();
+    const q     = searchQuery.toLowerCase();
+
+    const toolMatch   = activeTool === 'all' || tool === activeTool;
+    const searchMatch = !q || code.includes(q) || desc.includes(q) || tags.includes(q);
+
+    if (toolMatch && searchMatch) { card.style.display = ''; visible++; }
+    else { card.style.display = 'none'; }
+  });
+  shownCount.textContent = visible;
+  noResults.style.display = visible === 0 ? 'block' : 'none';
+}
+
+searchInput.addEventListener('input', e => { searchQuery = e.target.value; updateDisplay(); });
+
+filterBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    filterBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeTool = btn.dataset.tool;
+    updateDisplay();
+  });
+});
+
+function copyCmd(btn) {
+  const code = btn.closest('.cmd-card').querySelector('.cmd-code').textContent;
+  navigator.clipboard.writeText(code).then(() => {
+    btn.textContent = 'copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'copy'; btn.classList.remove('copied'); }, 1500);
+  });
+}
+
+document.addEventListener('DOMContentLoaded', buildCards);
+</script>
+</body>
+</html>
