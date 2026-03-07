@@ -4,6 +4,7 @@ baseurl: ""
 
 plugins:
   - jekyll-sitemap
+future: true
 
 collections:
   writeups:
