@@ -5,12 +5,10 @@ platform: "HackTheBox"
 category: "seasonal"
 difficulty: "Easy"
 permalink: /writeups/seasonal/wingdata/
-os: "Linux"
+os: "Linux  Release HTB Seasonal"
 date: 2026-03-08
 pwned: true
 ---
-## Summary
-A Linux box centred around a file transfer server with a known pre-authentication vulnerability. Rooting it requires chaining three distinct skills: web exploitation, offline credential recovery, and abusing a subtle flaw in Python's standard library.
 
 # 🪶 WingData
 
