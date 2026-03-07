@@ -3,11 +3,15 @@ layout: writeup
 name: "Interpreter"
 platform: "HackTheBox"
 category: "seasonal"
-difficulty: "Unknown"
+difficulty: "Medium"
 permalink: /writeups/seasonal/interpreter/
-date: 2026-02-25
+os: "Linux"
+date: 2026-03-08
 pwned: true
 ---
+## Summary
+This box rewards people who read CVE advisories and aren't afraid to poke databases, read source code, and think creatively about what constitutes a "space."
+
 # 🩸 HTB — Interpreter | Medium | Linux
 
 > No spoilers. Just vibes, nudges, and the occasional raised eyebrow.

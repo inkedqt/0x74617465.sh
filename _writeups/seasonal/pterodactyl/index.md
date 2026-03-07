@@ -5,10 +5,12 @@ platform: "HackTheBox"
 category: "seasonal"
 difficulty: "Medium"
 permalink: /writeups/seasonal/pterodactyl/
-os: "Linux  Release HTB Seasonal"
-date: 2026-02-25
+os: "Linux"
+date: 2026-03-08
 pwned: true
 ---
+## Summary
+A PHP web application box that rewards thorough enumeration before touching an exploit. Getting root requires chaining a lesser-known Polkit quirk with a race condition — patience and two terminals win the day.
 # 🦕 Pterodactyl
 
 > **Difficulty:** Medium | **OS:** Linux | **Release:** HTB Seasonal
