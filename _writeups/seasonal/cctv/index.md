@@ -21,7 +21,7 @@ _No spoilers. Just vibes, nudges, and the occasional raised eyebrow._
 
 ## 📸 Proof
 
-![Pirate Proof](https://raw.githubusercontent.com/inkedqt/ctf-writeups/main/HTB/proofs/cctv.png)
+![cctv Proof](https://raw.githubusercontent.com/inkedqt/ctf-writeups/main/HTB/proofs/cctv.png)
 
 ---
 

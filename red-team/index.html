@@ -1026,7 +1026,8 @@ function renderSeasons() {
 
 function renderBoxCard(b) {
   const dc = diffClass(b.diff);
-  const link = b.url ? `<a class="box-link" href="${b.url}" target="_blank">writeup</a>` : '';
+  const writeupLink = b.url  ? `<a class="box-link" href="${b.url}"   target="_blank">writeup</a>` : '';
+  const proofLink   = b.proof ? `<a class="box-link" href="${b.proof}" target="_blank">proof →</a>` : '';
   return `
     <div class="box-card" data-name="${b.name.toLowerCase()}" data-diff="${b.diff.toLowerCase()}">
       <div class="proof-thumb"></div>
@@ -1036,7 +1037,7 @@ function renderBoxCard(b) {
       </div>
       <div class="box-summary">${b.summary}</div>
       <div class="box-footer">
-        <div class="box-links">${link}</div>
+        <div class="box-links">${writeupLink}${proofLink}</div>
         <span class="box-status">${b.status}</span>
       </div>
     </div>

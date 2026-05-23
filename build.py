@@ -267,7 +267,10 @@ def build_front_matter(name, meta, category, platform, summary, pwned, date_str,
 
 # ── PROCESS ONE BOX ───────────────────────────────────────────────────────────
 def process_box(box_dir, category, platform, dest_dir, dry_run, existing_boxes):
-    readme = box_dir / 'README.md'
+    # index.md is the going-forward standard (matches inksec Obsidian convention)
+    readme = box_dir / 'index.md'
+    if not readme.exists():
+        readme = box_dir / 'README.md'
     if not readme.exists():
         return None
 
@@ -319,6 +322,8 @@ def process_box(box_dir, category, platform, dest_dir, dry_run, existing_boxes):
             if img.suffix.lower() in ('.png', '.jpg', '.jpeg', '.gif', '.webp', '.svg'):
                 shutil.copy2(img, dest_path / img.name)
 
+    proof = meta.get('proof', '').strip()
+
     return {
         'name':     name,
         'diff':     diff,
@@ -329,6 +334,7 @@ def process_box(box_dir, category, platform, dest_dir, dry_run, existing_boxes):
         'private':  private,
         'summary':  summary,
         'url':      f'/writeups/{category}/{slug}/',
+        'proof':    proof,
         'date':     date_str,
     }
 
