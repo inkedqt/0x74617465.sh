@@ -5,11 +5,11 @@ platform: "HackTheBox"
 category: "seasonal"
 difficulty: "Easy"
 permalink: /writeups/seasonal/wingdata/
-os: "Linux  Release HTB Seasonal"
-date: 2026-03-08
+os: "HackTheBox"
+tags: [seasonal]
+date: 2026-05-24
 pwned: true
 ---
-
 # 🪶 WingData
 
 > **Difficulty:** Easy | **OS:** Linux | **Release:** HTB Seasonal

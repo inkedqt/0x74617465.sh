@@ -19,7 +19,7 @@ A Linux box built around a Node.js web application with a recently disclosed pre
 ---
 
 ## 📸 Proof
-![](CTF/HTB/Seasonal/reactor/reactor.png)
+![](reactor.png)
 
 
 ---

@@ -283,12 +283,15 @@ def process_box(box_dir, category, platform, dest_dir, dry_run, existing_boxes):
     date_str = datetime.fromtimestamp(readme.stat().st_mtime).strftime('%Y-%m-%d')
 
     # ── Summary priority ──────────────────────────────────────────────────────
-    # 1. ## Summary in README  (going-forward standard — add this to new writeups)
-    # 2. YAML _data backfill   (existing boxes without ## Summary yet)
-    # 3. Teaser                (private/active only, last resort)
+    # 1. ## Summary heading in body  (legacy going-forward standard)
+    # 2. summary: field in YAML frontmatter  (new index.md standard)
+    # 3. YAML _data backfill
+    # 4. Teaser (private/active only, last resort)
     teaser = extract_teaser(text)
+    fm_summary = meta.get('summary', '').strip().strip('"').strip("'")
     summary = (
         extract_summary_from_readme(text) or
+        fm_summary or
         extract_summary_from_existing(name, existing_boxes) or
         (teaser if private else '')
     )
