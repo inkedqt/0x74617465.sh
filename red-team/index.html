@@ -1065,7 +1065,7 @@ function renderProlabs() {
         </div>
         <div class="prolab-status">${p.status || '✅'}</div>
         <div class="prolab-blurb">${p.blurb || p.summary || ''}</div>
-        <a class="prolab-link" href="${p.url}" target="_blank">view writeup →</a>
+        ${p.url ? `<a class="prolab-link" href="${p.url}" target="_blank">view writeup →</a>` : ''}
       </div>
     `;
   }).join('');

@@ -54,6 +54,13 @@ SCAN_PATHS = [
     ("Other/HackSmarter", "hacksmarter", "HackSmarter"),
 ]
 
+# Master switch. False = scorecard-only: no writeup pages, no writeup links, no
+# solution summaries for ANY category — cards show completion (name/difficulty/
+# tick/proof) only. This is the HTB User Agreement guardrail: publishing any
+# solution content for live, seasonal, or commercial (ProLab) machines breaches
+# the agreement. Set True only if you deliberately re-enable per-category writeups.
+PUBLISH_WRITEUPS = False
+
 # Difficulty normalisation
 DIFF_MAP = {
     "easy": "Easy", "medium": "Medium", "hard": "Hard",
@@ -299,31 +306,35 @@ def process_box(box_dir, category, platform, dest_dir, dry_run, existing_boxes):
     # Pwned — assume true unless ⏳ in status
     pwned = '⏳' not in meta.get('status', '')
 
+    # build_front_matter still gives us diff/os/tags for the card; the writeup
+    # page itself is no longer emitted (scorecard-only mode, see PUBLISH_WRITEUPS).
     fm, diff, os_val, tags = build_front_matter(
         name, meta, category, platform, summary, pwned, date_str, existing_boxes
     )
 
-    # Strip existing YAML front matter from content
-    content = text
-    fm_match = re.match(r'^---\s*\n.*?\n---\s*\n', text, re.DOTALL)
-    if fm_match:
-        content = text[fm_match.end():]
-
-    # Private active boxes — replace full content with spoiler notice + teaser
-    if private and category == 'active':
-        content = '\n> 🔒 **Spoiler Policy** — Full writeup published on machine retirement.\n\n'
-        if teaser:
-            content += f'## Teaser\n\n{teaser}\n'
-
     slug = slugify(name)
-    dest_path = dest_dir / category / slug
-    dest_path.mkdir(parents=True, exist_ok=True)
 
-    if not dry_run:
-        (dest_path / 'index.md').write_text(fm + content, encoding='utf-8')
-        for img in box_dir.iterdir():
-            if img.suffix.lower() in ('.png', '.jpg', '.jpeg', '.gif', '.webp', '.svg'):
-                shutil.copy2(img, dest_path / img.name)
+    # SCORECARD-ONLY: no writeup pages, links, or solution summaries are
+    # published for ANY category — the site shows completion (name / difficulty
+    # / tick / proof) and nothing that could spoil a live or commercial machine.
+    # This is the HTB User Agreement guardrail; flip PUBLISH_WRITEUPS to re-enable
+    # per-category writeups later if desired.
+    if PUBLISH_WRITEUPS:
+        content = text
+        fm_match = re.match(r'^---\s*\n.*?\n---\s*\n', text, re.DOTALL)
+        if fm_match:
+            content = text[fm_match.end():]
+        if private and category == 'active':
+            content = '\n> 🔒 **Spoiler Policy** — Full writeup published on machine retirement.\n\n'
+            if teaser:
+                content += f'## Teaser\n\n{teaser}\n'
+        dest_path = dest_dir / category / slug
+        dest_path.mkdir(parents=True, exist_ok=True)
+        if not dry_run:
+            (dest_path / 'index.md').write_text(fm + content, encoding='utf-8')
+            for img in box_dir.iterdir():
+                if img.suffix.lower() in ('.png', '.jpg', '.jpeg', '.gif', '.webp', '.svg'):
+                    shutil.copy2(img, dest_path / img.name)
 
     proof = meta.get('proof', '').strip()
 
@@ -335,8 +346,8 @@ def process_box(box_dir, category, platform, dest_dir, dry_run, existing_boxes):
         'category': category,
         'status':   '✅' if pwned else '⏳',
         'private':  private,
-        'summary':  summary,
-        'url':      f'/writeups/{category}/{slug}/',
+        'summary':  summary if PUBLISH_WRITEUPS else '',
+        'url':      f'/writeups/{category}/{slug}/' if PUBLISH_WRITEUPS else '',
         'proof':    proof,
         'date':     date_str,
     }
@@ -411,11 +422,16 @@ def main():
                     match = yaml_lookup.get(key)
                     if match:
                         box['tier']      = match.get('tier', 'Pro Lab')
-                        box['blurb']     = match.get('blurb', box.get('summary', ''))
                         box['proof_img'] = match.get('proof_img', '')
-                        # Keep summary in sync so backfill stays consistent
-                        if not box.get('summary'):
-                            box['summary'] = box['blurb']
+                        # Scorecard-only: keep tier + proof, but never publish a
+                        # ProLab blurb/summary (commercial content, no spoilers).
+                        if PUBLISH_WRITEUPS:
+                            box['blurb'] = match.get('blurb', box.get('summary', ''))
+                            if not box.get('summary'):
+                                box['summary'] = box['blurb']
+                        else:
+                            box['blurb'] = ''
+                            box['summary'] = ''
                     else:
                         print(f'  [WARN] prolabs.yml has no match for: {box["name"]}')
                 print(f'  [YAML] enriched {len(all_boxes.get("prolabs", []))} prolabs from prolabs.yml')
